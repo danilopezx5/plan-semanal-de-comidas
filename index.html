@@ -1,0 +1,1510 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>Plan semanal de comidas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #f4f6f1;
+        --surface: #ffffff;
+        --surface-2: #edf1e8;
+        --ink: #22301f;
+        --ink-soft: #55634f;
+        --line: #dde3d5;
+        --line-strong: #aebfa0;
+        --accent: #2e6b45;
+        --accent-ink: #ffffff;
+        --accent-soft: #dcecdf;
+        --warm: #b4531f;
+        --warm-soft: #f7e6d8;
+        --kid: #7a4a8c;
+        --kid-soft: #eee2f4;
+        --shadow: 0 1px 2px rgba(34, 48, 31, .06), 0 6px 18px rgba(34, 48, 31, .06);
+        --radius: 16px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #12160f;
+          --surface: #1c221a;
+          --surface-2: #242c21;
+          --ink: #e9efe4;
+          --ink-soft: #a9b5a2;
+          --line: #333d2f;
+          --line-strong: #55654e;
+          --accent: #7fc493;
+          --accent-ink: #12240f;
+          --accent-soft: #27402e;
+          --warm: #eba06a;
+          --warm-soft: #45301d;
+          --kid: #cfa9e8;
+          --kid-soft: #37283f;
+          --shadow: 0 1px 2px rgba(0,0,0,.35), 0 6px 18px rgba(0,0,0,.3);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+      }
+      .wrap { max-width: 860px; margin: 0 auto; padding: 0 16px 96px; }
+
+      header.page {
+        padding: 32px 4px 6px;
+      }
+      header.page h1 {
+        font-size: 32px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        margin: 0 0 6px;
+        line-height: 1.15;
+      }
+      header.page p {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 16px;
+        max-width: 34em;
+      }
+      .today-line {
+        margin-top: 14px;
+        display: inline-flex;
+        align-items: flex-start;
+        gap: 8px;
+        background: var(--accent-soft);
+        color: var(--accent);
+        font-weight: 800;
+        font-size: 14px;
+        padding: 7px 13px;
+        border-radius: 999px;
+      }
+      .today-line .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); flex: none; margin-top: 7px; }
+
+      /* ---------- Tab bar ---------- */
+      nav.tabs {
+        display: flex;
+        gap: 6px;
+        padding: 12px 0 10px;
+        background: var(--bg);
+        flex-wrap: wrap;
+      }
+      nav.tabs button {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink-soft);
+        font: inherit;
+        font-size: 14.5px;
+        font-weight: 800;
+        padding: 9px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      nav.tabs button svg { width: 17px; height: 17px; flex: none; }
+      nav.tabs button[aria-selected="true"] {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--accent-ink);
+      }
+      nav.tabs button:focus-visible { outline: 3px solid var(--warm); outline-offset: 2px; }
+
+      section.panel { display: none; }
+      section.panel.active { display: block; }
+      section.panel > h2 {
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        margin: 14px 0 4px;
+      }
+      section.panel > .lede { color: var(--ink-soft); margin: 0 0 18px; max-width: 38em; }
+
+      .week-flag {
+        display: none;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        padding: 3px 10px;
+        border-radius: 999px;
+        margin-left: 10px;
+        vertical-align: 4px;
+      }
+      .week-flag.on { display: inline-block; }
+
+      /* ---------- Day cards ---------- */
+      .days { display: grid; gap: 16px; }
+      @media (min-width: 720px) {
+        .days { grid-template-columns: 1fr 1fr; }
+        .days .day:last-child { grid-column: 1 / -1; }
+      }
+      .day {
+        background: var(--surface);
+        border: 2px solid var(--line-strong);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 16px 18px 14px;
+      }
+      .day.is-today {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px var(--accent) inset, var(--shadow);
+        padding: 20px 22px 18px;
+      }
+      .day.is-today .day-head h3 { font-size: 20px; }
+      .day-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 6px;
+      }
+      .day-head h3 { margin: 0; font-size: 18px; font-weight: 900; }
+      .today-badge {
+        display: none;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .04em;
+        text-transform: uppercase;
+        padding: 3px 9px;
+        border-radius: 999px;
+      }
+      .day.is-today .today-badge { display: inline-block; }
+
+      .aviso {
+        display: flex;
+        gap: 7px;
+        align-items: center;
+        background: var(--warm-soft);
+        color: var(--warm);
+        font-size: 13px;
+        font-weight: 700;
+        border-radius: 8px;
+        padding: 5px 9px;
+        margin: 2px 0 6px;
+      }
+      .aviso .aviso-tag {
+        flex: none;
+        font-size: 11px;
+        font-weight: 900;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        background: var(--warm);
+        color: #fff;
+        padding: 2px 7px;
+        border-radius: 999px;
+        margin-top: 1px;
+      }
+      @media (prefers-color-scheme: dark) {
+        .aviso .aviso-tag { color: #2a1a0c; }
+      }
+
+      .meal { display: flex; gap: 10px; padding: 9px 0; }
+      .meal + .meal { border-top: 1px dashed var(--line); }
+      .meal .tag {
+        flex: none;
+        width: 74px;
+        font-size: 12px;
+        font-weight: 900;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        color: var(--accent);
+        padding-top: 3px;
+      }
+      .meal .tag.snack { color: var(--kid); }
+      .meal .tag.dinner { color: var(--warm); }
+      .meal-body { flex: 1; min-width: 0; }
+      .meal-body > p { margin: 0; font-size: 15.5px; }
+
+      details.recipe { margin-top: 6px; }
+      details.recipe summary {
+        cursor: pointer;
+        color: var(--accent);
+        font-size: 14px;
+        font-weight: 800;
+        list-style: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 2px 0;
+      }
+      details.recipe summary::-webkit-details-marker { display: none; }
+      details.recipe summary::before {
+        content: "";
+        width: 7px; height: 7px;
+        border-right: 2px solid var(--accent);
+        border-bottom: 2px solid var(--accent);
+        transform: rotate(-45deg);
+        transition: transform .15s ease;
+        flex: none;
+      }
+      details.recipe[open ] summary::before { transform: rotate(45deg); }
+      details.recipe summary:focus-visible { outline: 3px solid var(--warm); outline-offset: 2px; border-radius: 4px; }
+      details.recipe ol {
+        margin: 8px 0 4px;
+        padding-left: 20px;
+        font-size: 14.5px;
+        color: var(--ink-soft);
+      }
+      details.recipe ol li { margin: 4px 0; }
+
+      details.quick {
+        margin-top: 10px;
+        background: var(--surface-2);
+        border-radius: 10px;
+        padding: 8px 11px;
+      }
+      details.quick summary {
+        cursor: pointer;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        font-size: 14px;
+        font-weight: 800;
+        color: var(--ink-soft);
+        padding: 1px 0;
+      }
+      details.quick summary::-webkit-details-marker { display: none; }
+      details.quick summary::before {
+        content: "";
+        width: 7px; height: 7px;
+        border-right: 2px solid var(--ink-soft);
+        border-bottom: 2px solid var(--ink-soft);
+        transform: rotate(-45deg);
+        transition: transform .15s ease;
+        flex: none;
+      }
+      details.quick[open ] summary::before { transform: rotate(45deg); }
+      details.quick summary:focus-visible { outline: 3px solid var(--warm); outline-offset: 2px; border-radius: 4px; }
+      details.quick .quick-lines { margin-top: 6px; font-size: 14px; color: var(--ink-soft); }
+      details.quick .quick-lines p { margin: 3px 0; }
+      details.quick .quick-lines strong { color: var(--ink); }
+
+      /* ---------- Info blocks ---------- */
+      .block {
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        margin: 18px 0;
+      }
+      .block h3 { margin: 0 0 8px; font-size: 16.5px; font-weight: 900; }
+      .block p, .block li { font-size: 15.5px; }
+      .block p { margin: 0; }
+      .block ul { margin: 0; padding-left: 20px; }
+      .block li { margin: 3px 0; }
+      .block ol { margin: 0; padding-left: 22px; }
+      .block ol li { margin: 7px 0; }
+      .block.rotate { background: var(--warm-soft); }
+      .block.rotate h3 { color: var(--warm); }
+      .block.note { background: var(--kid-soft); }
+      .block.note h3 { color: var(--kid); }
+      .block.plain { background: var(--surface-2); }
+      .block.green { background: var(--accent-soft); }
+      .block.green h3 { color: var(--accent); }
+
+      /* ---------- Lists (compra / cesta) ---------- */
+      .groups { display: grid; gap: 14px; }
+      @media (min-width: 720px) { .groups { grid-template-columns: 1fr 1fr; } }
+      .group {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 16px 18px;
+      }
+      .group h3 {
+        margin: 0 0 10px;
+        font-size: 15px;
+        font-weight: 900;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        color: var(--accent);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .group h3 svg { width: 18px; height: 18px; }
+      .group ul { list-style: none; margin: 0; padding: 0; }
+      .group li {
+        padding: 6px 0 6px 22px;
+        position: relative;
+        font-size: 15.5px;
+      }
+      .group li::before {
+        content: "";
+        position: absolute;
+        left: 2px; top: 14px;
+        width: 7px; height: 7px;
+        border-radius: 50%;
+        background: var(--accent);
+        opacity: .55;
+      }
+      .group li + li { border-top: 1px solid var(--line); }
+      .group li .hint { color: var(--ink-soft); font-size: 13.5px; }
+
+      /* ---------- Para variar ---------- */
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 4px 0 16px;
+      }
+      .filters button {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink-soft);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 800;
+        padding: 7px 13px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .filters button[aria-pressed="true"] {
+        background: var(--warm);
+        border-color: var(--warm);
+        color: #fff;
+      }
+      @media (prefers-color-scheme: dark) {
+        .filters button[aria-pressed="true"] { color: #2a1a0c; }
+      }
+      .filters button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+      .dish-grid { display: grid; gap: 10px; margin-bottom: 8px; }
+      @media (min-width: 720px) { .dish-grid { grid-template-columns: 1fr 1fr; } }
+      .dish {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px 15px;
+        font-size: 15.5px;
+        font-weight: 700;
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .dish::before {
+        content: "";
+        width: 8px; height: 8px;
+        border-radius: 2px;
+        background: var(--warm);
+        flex: none;
+        transform: rotate(45deg);
+      }
+      .dish.new::before { background: var(--accent); }
+      .dish.kid::before { background: var(--kid); }
+      .dish .dish-name { flex: 1; min-width: 55%; }
+      .dish .pill {
+        font-size: 11.5px;
+        font-weight: 800;
+        background: var(--surface-2);
+        color: var(--ink-soft);
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
+      .dish.hidden { display: none; }
+      .dish .dish-desc {
+        flex-basis: 100%;
+        padding-left: 18px;
+        font-size: 14px;
+        font-weight: 400;
+        color: var(--ink-soft);
+      }
+      .more-ideas {
+        appearance: none;
+        border: none;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font: inherit;
+        font-size: 14.5px;
+        font-weight: 800;
+        padding: 9px 16px;
+        border-radius: 999px;
+        cursor: pointer;
+        margin-top: 4px;
+      }
+      .more-ideas:focus-visible { outline: 3px solid var(--warm); outline-offset: 2px; }
+      .subhead {
+        font-size: 17px;
+        font-weight: 900;
+        margin: 22px 0 4px;
+      }
+      .subhead:first-of-type { margin-top: 8px; }
+      .subnote { color: var(--ink-soft); margin: 0 0 12px; font-size: 15px; }
+
+      /* ---------- Buscador ---------- */
+      .search-box { position: relative; margin: 6px 0 12px; }
+      .search-box svg {
+        position: absolute;
+        left: 14px; top: 50%;
+        transform: translateY(-50%);
+        width: 20px; height: 20px;
+        color: var(--ink-soft);
+        pointer-events: none;
+      }
+      .search-box input {
+        width: 100%;
+        font: inherit;
+        font-size: 17px;
+        padding: 13px 16px 13px 44px;
+        border: 2px solid var(--line-strong);
+        border-radius: 12px;
+        background: var(--surface);
+        color: var(--ink);
+      }
+      .search-box input:focus { outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+      .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+      .chips button {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink-soft);
+        font: inherit;
+        font-size: 14px;
+        font-weight: 800;
+        padding: 7px 13px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .chips button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+      .search-status { color: var(--ink-soft); font-size: 14.5px; margin: 0 0 12px; min-height: 1.4em; }
+      .dish .goto {
+        appearance: none;
+        border: none;
+        background: none;
+        font: inherit;
+        font-size: 13.5px;
+        font-weight: 800;
+        color: var(--accent);
+        cursor: pointer;
+        padding: 4px 8px;
+        border-radius: 6px;
+      }
+      .dish .goto:focus-visible { outline: 3px solid var(--warm); outline-offset: 2px; }
+
+      /* Resaltado temporal del plato al que lleva el «Ver» del buscador */
+      .flash { animation: flashPulse 1.5s ease-out 2; border-radius: 10px; }
+      @keyframes flashPulse {
+        0%, 100% { box-shadow: none; }
+        30% { box-shadow: 0 0 0 3px var(--warm), 0 0 0 7px var(--warm-soft); background-color: var(--warm-soft); }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .flash { animation: none; box-shadow: 0 0 0 3px var(--warm); }
+      }
+
+      /* ---------- Casillas (compra / cesta) ---------- */
+      .marks-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin: 0 0 16px;
+      }
+      .marks-count { font-size: 14px; font-weight: 800; color: var(--ink-soft); }
+      .reset-marks {
+        appearance: none;
+        border: 1px solid var(--line);
+        background: var(--surface);
+        color: var(--ink-soft);
+        font: inherit;
+        font-size: 13.5px;
+        font-weight: 800;
+        padding: 6px 12px;
+        border-radius: 999px;
+        cursor: pointer;
+      }
+      .reset-marks:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+      .group li.check { padding: 0; }
+      .group li.check::before { display: none; }
+      .group li.check label {
+        display: flex;
+        align-items: flex-start;
+        gap: 11px;
+        padding: 9px 2px;
+        cursor: pointer;
+      }
+      .group li.check input[type="checkbox"] {
+        width: 21px; height: 21px;
+        flex: none;
+        margin: 1px 0 0;
+        accent-color: var(--accent);
+        cursor: pointer;
+      }
+      .group li.check.done .item-text { text-decoration: line-through; color: var(--ink-soft); }
+
+      footer.page {
+        margin-top: 34px;
+        color: var(--ink-soft);
+        font-size: 14px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="page">
+        <h1>Plan semanal de comidas</h1>
+        <p>El menú de la semana para vosotros dos y para la peque, la lista de la compra y un banco de platos para variar. Sin pensar cada día qué toca.</p>
+        <div class="today-line"><span class="dot"></span><span id="todayText">Cargando el día de hoy…</span></div>
+      </header>
+
+      <nav class="tabs" role="tablist" aria-label="Secciones del plan">
+        <button role="tab" aria-selected="true" data-tab="semanaA" id="tab-semanaA">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          Semana A
+        </button>
+        <button role="tab" aria-selected="false" data-tab="semanaB" id="tab-semanaB">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>
+          Semana B
+        </button>
+        <button role="tab" aria-selected="false" data-tab="peque" id="tab-peque">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M5 21c0-3.9 3.1-6 7-6s7 2.1 7 6"/></svg>
+          La peque
+        </button>
+        <button role="tab" aria-selected="false" data-tab="desayunos" id="tab-desayunos">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h13v5a5 5 0 0 1-5 5h-3a5 5 0 0 1-5-5v-5Z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17M7 6c0-1 .8-1 .8-2M11 6c0-1 .8-1 .8-2"/></svg>
+          Desayunos
+        </button>
+        <button role="tab" aria-selected="false" data-tab="prep" id="tab-prep">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          Prep del domingo
+        </button>
+        <button role="tab" aria-selected="false" data-tab="compra" id="tab-compra">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16l-1.3 11a2 2 0 0 1-2 1.8H7.3a2 2 0 0 1-2-1.8L4 7Z"/><path d="M8 10V6a4 4 0 0 1 8 0v4"/></svg>
+          Lista de la compra
+        </button>
+        <button role="tab" aria-selected="false" data-tab="variar" id="tab-variar">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M21 3l-7.5 7.5M8 21H3v-5M3 21l7.5-7.5"/></svg>
+          Para variar
+        </button>
+        <button role="tab" aria-selected="false" data-tab="buscador" id="tab-buscador">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+          Buscador
+        </button>
+        <button role="tab" aria-selected="false" data-tab="cesta" id="tab-cesta">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z"/><path d="M8.5 8 12 3l3.5 5"/></svg>
+          Nuestra cesta
+        </button>
+      </nav>
+
+      <!-- ============ 1. SEMANA A ============ -->
+      <section class="panel active" id="panel-semanaA" role="tabpanel" aria-labelledby="tab-semanaA">
+        <h2>Semana A<span class="week-flag" id="flagA">Semana en curso</span></h2>
+        <p class="lede">Comida y cena de lunes a domingo, montadas con lo que compráis siempre. Cada plato lleva su receta en pocos pasos y una opción rápida por si el día se tuerce. El sábado, pizza, como manda el ritual.</p>
+
+        <div class="days" id="daysA"><!-- generado por JS --></div>
+
+        <div class="block rotate">
+          <h3>Desayunos (rotar)</h3>
+          <ul>
+            <li>Leche o Colacao con pan de molde con tomate</li>
+            <li>Tostadas con queso</li>
+            <li>Yogur con fruta y nueces</li>
+            <li>Pan con embutido (jamón, lomo embuchado, fiambre de pollo…)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ 2. SEMANA B ============ -->
+      <section class="panel" id="panel-semanaB" role="tabpanel" aria-labelledby="tab-semanaB">
+        <h2>Semana B<span class="week-flag" id="flagB">Semana en curso</span></h2>
+        <p class="lede">La otra semana del ciclo: mismos ingredientes de siempre, otra combinación, para que no se repita el menú y la compra se sepa con antelación. También con receta y opción rápida en cada plato.</p>
+
+        <div class="days" id="daysB"><!-- generado por JS --></div>
+
+        <div class="block rotate">
+          <h3>Desayunos (rotar)</h3>
+          <ul>
+            <li>Leche o Colacao con pan de molde con tomate</li>
+            <li>Tostadas con queso</li>
+            <li>Yogur con fruta y nueces</li>
+            <li>Pan con embutido (jamón, lomo embuchado, fiambre de pollo…)</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ 3. LA PEQUE ============ -->
+      <section class="panel" id="panel-peque" role="tabpanel" aria-labelledby="tab-peque">
+        <h2>La peque · 1 año y 4 meses</h2>
+        <p class="lede">Come de lo mismo que vosotros, adaptado: texturas blandas, trozos que pueda coger con la mano y su ración apartada antes de salar. Su plan sigue la misma rotación de semanas que el vuestro.</p>
+
+        <div class="block plain">
+          <h3>Desayunos (rotar)</h3>
+          <ul>
+            <li>Leche entera + pan de molde con tomate y aceite</li>
+            <li>Yogur natural con plátano chafado</li>
+            <li>Leche + fruta en trozos blandos</li>
+          </ul>
+        </div>
+
+        <div id="kidWeeks"><!-- generado por JS --></div>
+
+        <div class="block note">
+          <h3>A tener en cuenta</h3>
+          <ul>
+            <li>Apartar su ración <strong>antes de salar</strong> la comida familiar.</li>
+            <li>Sin azúcar añadido; para beber, <strong>agua</strong>.</li>
+            <li>Frutos secos solo <strong>molidos</strong>, nunca enteros.</li>
+            <li>Uvas y tomates cherry siempre <strong>partidos</strong> a lo largo.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ 4. DESAYUNOS ============ -->
+      <section class="panel" id="panel-desayunos" role="tabpanel" aria-labelledby="tab-desayunos">
+        <h2>Desayunos</h2>
+        <p class="lede">Ideas suaves para empezar el día sin pelearse con la cocina. Para ella, cosas ligeras que entran solas, sin tostadas ni masticar con ganas.</p>
+
+        <div class="block green">
+          <h3>Esta mañana</h3>
+          <p class="subnote">La sugerencia de hoy; cambia sola cada día.</p>
+          <ul>
+            <li><strong>Para ella:</strong> <span id="desayunoElla">…</span></li>
+            <li><strong>Para él:</strong> <span id="desayunoEl">…</span></li>
+          </ul>
+        </div>
+
+        <div class="block green">
+          <h3>Para ella · suaves y ligeros</h3>
+          <ul>
+            <li><strong>Colacao con galletas</strong> — el de siempre, el que nunca falla.</li>
+            <li><strong>Batido de leche con plátano</strong> — un minuto de batidora y entra solo.</li>
+            <li><strong>Yogur bebible</strong> — abrir y listo.</li>
+            <li><strong>Yogur natural con un poco de miel</strong> — dulce y suave.</li>
+            <li><strong>Una pieza de fruta</strong> — plátano o manzana, sin más.</li>
+            <li><strong>Yogur de proteínas de sabores</strong> — el del Mercadona, abrir y listo.</li>
+            <li><strong>Plátano con yogur natural y un poco de miel</strong> — dulce, suave y sin cocinar nada.</li>
+            <li><strong>Leche fría con galletas María</strong> — fresquita y ligera.</li>
+            <li><strong>Batido de leche, plátano y una cucharada de Colacao</strong> — el Colacao de siempre, en versión batido.</li>
+          </ul>
+        </div>
+
+        <div class="block plain">
+          <h3>Para él</h3>
+          <ul>
+            <li>Todo lo de arriba, más:</li>
+            <li>Tostadas con tomate o con queso</li>
+            <li>Pan con embutido (jamón, lomo embuchado, fiambre de pollo…)</li>
+            <li>Yogur con nueces</li>
+            <li>Colacao con galletas</li>
+            <li>Tortitas de plátano y huevo — se hacen en 5 minutos</li>
+            <li>Pan de molde con queso de cabra y miel</li>
+            <li>Yogur natural con manzana y nueces</li>
+            <li>Bocadillito de jamón cocido y queso</li>
+          </ul>
+        </div>
+
+        <div class="block rotate">
+          <h3>Para picar a media mañana</h3>
+          <ul>
+            <li>Pipas normales del Mercadona</li>
+            <li>Nueces</li>
+            <li>Una pieza de fruta</li>
+            <li>Yogur de proteínas</li>
+            <li>Queso en cuña</li>
+            <li>Yogur bebible</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ============ 5. PREP DEL DOMINGO ============ -->
+      <section class="panel" id="panel-prep" role="tabpanel" aria-labelledby="tab-prep">
+        <h2>Prep del domingo</h2>
+        <p class="lede">40 minutos el domingo y 3 o 4 días de la semana quedan prácticamente resueltos. Es el truco para que entre semana solo haya que calentar, montar y sentarse.</p>
+
+        <div class="block green">
+          <h3>Los 5 pasos (40 min)</h3>
+          <ol>
+            <li><strong>Deja listo un sofrito base</strong> — cebolla, ajo y pimiento en un tupper, para arrancar cualquier guiso de la semana en dos minutos.</li>
+            <li><strong>Haz una crema grande</strong> — la de las cenas de la semana (setas, calabaza o calabacín). Aguanta 3-4 días en la nevera.</li>
+            <li><strong>Hornea una bandeja de pollo</strong> — muslos o contramuslos con patatas; sirve para una cena y para desmenuzar en otras comidas.</li>
+            <li><strong>Cuece 6-8 huevos</strong> — para ensaladas, potajes y cenas rápidas de toda la semana.</li>
+            <li><strong>Lava y pica cebolla y cebolleta</strong> — en un táper, listas para cualquier sofrito o ensalada.</li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ============ 6. LISTA DE LA COMPRA ============ -->
+      <section class="panel" id="panel-compra" role="tabpanel" aria-labelledby="tab-compra">
+        <h2>Lista de la compra</h2>
+        <p class="lede">Lo que hace falta cada semana para cumplir el plan, agrupado por pasillos, más la despensa base que conviene tener siempre en casa. Marca la casilla de cada cosa según la tengas en casa o la vayas metiendo en el carro: quedará tachada y de un vistazo verás lo que te falta.</p>
+        <p class="subnote">Precios orientativos de Mercadona; revisados el 26/10/2026 (los productos no verificados hoy mantienen el valor consultado el 20/10/2026). Los frescos de peso variable se cobran al peso en tienda.</p>
+        <div class="marks-bar">
+          <span class="marks-count" id="cuentaCompra"></span>
+          <button type="button" class="reset-marks" id="resetCompra">Quitar todas las marcas</button>
+        </div>
+        <p class="subnote">Las marcas se guardan en este móvil: aunque cierres la página, al volver a abrirla seguirán marcadas.</p>
+
+        <h3 class="subhead">Semana A</h3>
+        <p class="subnote">La compra de la semana A.</p>
+        <div class="groups" id="shopGroupsA"><!-- generado por JS --></div>
+
+        <h3 class="subhead">Semana B</h3>
+        <p class="subnote">La compra de la semana B, para tenerla prevista de antemano.</p>
+        <div class="groups" id="shopGroupsB"><!-- generado por JS --></div>
+
+        <h3 class="subhead">Despensa base (siempre en casa)</h3>
+        <p class="subnote">Lo que no debería faltar nunca; con esto en casa, casi cualquier día se salva.</p>
+        <div class="groups" id="shopGroupsBase"><!-- generado por JS --></div>
+      </section>
+
+      <!-- ============ 7. PARA VARIAR ============ -->
+      <section class="panel" id="panel-variar" role="tabpanel" aria-labelledby="tab-variar">
+        <h2>Para variar</h2>
+        <p class="lede">Banco de platos para cambiar piezas del plan sin romper la cesta: unos salen de lo que ya compráis, otros son ideas nuevas fáciles de encontrar en el Mercadona. Filtra por lo que te apetezca hoy y seguro que alguna idea convence.</p>
+
+        <div class="block green">
+          <h3>Hoy te sugerimos</h3>
+          <p class="subnote">Tres ideas del banco para hoy. Cambian solas cada día; si no te convencen, pide otras.</p>
+          <div class="dish-grid" id="sugerencias"><!-- generado por JS --></div>
+          <button type="button" class="more-ideas" id="btnMasIdeas">Dame otras ideas</button>
+        </div>
+
+        <div class="filters" role="group" aria-label="Filtrar platos por tipo">
+          <button type="button" data-filter="todos" aria-pressed="true">Todos</button>
+          <button type="button" data-filter="rapido" aria-pressed="false">Rápido</button>
+          <button type="button" data-filter="horno" aria-pressed="false">Horno</button>
+          <button type="button" data-filter="cuchara" aria-pressed="false">Cuchara</button>
+          <button type="button" data-filter="peque" aria-pressed="false">Peque</button>
+        </div>
+
+        <h3 class="subhead">Con lo que ya compráis</h3>
+        <p class="subnote">Sin salir de la cesta habitual.</p>
+        <div class="dish-grid" id="varyUsual"></div>
+
+        <h3 class="subhead">Ideas nuevas (Mercadona)</h3>
+        <p class="subnote">Para ir incluyendo de vez en cuando y que la semana no se haga monótona.</p>
+        <div class="dish-grid" id="varyNew"></div>
+
+        <h3 class="subhead">Para la peque</h3>
+        <p class="subnote">Variantes blandas para sus comidas y meriendas.</p>
+        <div class="dish-grid" id="varyKid"></div>
+      </section>
+
+      <!-- ============ 8. BUSCADOR ============ -->
+      <section class="panel" id="panel-buscador" role="tabpanel" aria-labelledby="tab-buscador">
+        <h2>Buscador de comidas</h2>
+        <p class="lede">¿Te apetece algo en concreto pero no sabes con qué combinarlo? Escribe un ingrediente y salen todos los platos que lo llevan: los de las dos semanas, las opciones rápidas, los de la peque y los del banco para variar.</p>
+
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
+          <input type="search" id="buscadorInput" placeholder="Prueba con pollo, merluza, pechugas, huevo…" aria-label="Buscar comidas por ingrediente" autocomplete="off" />
+        </div>
+        <div class="chips" id="buscadorChips">
+          <button type="button" data-q="pollo">Pollo</button>
+          <button type="button" data-q="merluza">Merluza</button>
+          <button type="button" data-q="pechuga">Pechuga</button>
+          <button type="button" data-q="huevo">Huevo</button>
+          <button type="button" data-q="garbanzos">Garbanzos</button>
+          <button type="button" data-q="queso">Queso</button>
+          <button type="button" data-q="atún">Atún</button>
+          <button type="button" data-q="patata">Patata</button>
+        </div>
+        <p class="search-status" id="buscadorEstado"></p>
+        <div class="dish-grid" id="resultados"></div>
+      </section>
+
+      <!-- ============ 9. NUESTRA CESTA ============ -->
+      <section class="panel" id="panel-cesta" role="tabpanel" aria-labelledby="tab-cesta">
+        <h2>Nuestra cesta</h2>
+        <p class="lede">Los alimentos que compráis habitualmente en casa, tal cual. Todo el plan y el banco de platos salen de aquí; lo que falte, se añade. Marca la casilla de lo que tienes ahora mismo en casa y tendrás claro qué hay que reponer.</p>
+        <div class="marks-bar">
+          <span class="marks-count" id="cuentaCesta"></span>
+          <button type="button" class="reset-marks" id="resetCesta">Quitar todas las marcas</button>
+        </div>
+        <p class="subnote">Las marcas se guardan en este móvil: aunque cierres la página, al volver a abrirla seguirán marcadas.</p>
+        <div class="groups" id="basketGroups"><!-- generado por JS --></div>
+      </section>
+
+      <footer class="page">Plan pensado para dos adultos y una peque de 16 meses · Se ajusta semana a semana</footer>
+    </div>
+
+    <script>
+      "use strict";
+
+      /* ---------- Datos ---------- */
+      var DIAS = ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"];
+
+      var PLAN_A = [
+        {
+          comida: "Lentejas con chorizo y verdura + yogur natural",
+          recetaC: ["Sofríe cebolla, ajo y tomate natural; añade el chorizo en rodajas y dóralo un poco.", "Echa las lentejas del bote, escurridas y enjuagadas, con un vaso de agua o caldo.", "Cuece todo junto 8-10 min, solo para que cojan el sabor del sofrito.", "Sirve con el yogur natural al lado."],
+          rapidaC: "Bocadillo de jamón cocido y queso + yogur natural",
+          cena: "Ensalada con atún, huevo duro y aceitunas",
+          recetaN: ["Cuece los huevos 10 min y déjalos enfriar.", "Lava la ensalada y trocea tomate y cebolleta.", "Mezcla con el atún escurrido y las aceitunas.", "Aliña con aceite y sal y corona con el huevo en cuartos."],
+          rapidaN: "Crema de calabacín + huevo a la plancha",
+          aviso: ""
+        },
+        {
+          comida: "Macarrones con carne picada, tomate natural y queso",
+          recetaC: ["Cuece los macarrones en agua con sal y escúrrelos.", "Dora la carne picada con cebolla y ajo picados.", "Añade el tomate natural triturado y deja que reduzca unos 10 min.", "Mezcla con la pasta, espolvorea queso por encima y gratina un par de minutos si te apetece."],
+          rapidaC: "Ensalada de macarrones con atún, tomate y aceitunas",
+          cena: "Merluza al horno con patatas panadera",
+          recetaN: ["Pela y corta las patatas en rodajas finas con cebolla; al horno 20 min con aceite y sal.", "Coloca la merluza encima con un poco de ajo picado.", "Hornea 12-15 min más, hasta que el pescado se deshaga en lascas."],
+          rapidaN: "Revuelto de champiñones con jamón",
+          aviso: ""
+        },
+        {
+          comida: "Potaje de garbanzos con verdura y huevo cocido",
+          recetaC: ["Sofríe cebolla, ajo y tomate natural.", "Añade la verdura que tengas (calabacín, alubias verdes…) con agua que la cubra y cuece 12-15 min.", "Echa los garbanzos del bote, escurridos y enjuagados, y cuece 5 min más para que cojan el sabor.", "Sirve con huevo cocido picado por encima."],
+          rapidaC: "Ensalada de garbanzos de bote con atún y cebolleta",
+          cena: "Contramuslos de pollo al horno con patatas",
+          recetaN: ["Salpimienta los contramuslos y ponlos en una bandeja con patatas en gajos y cebolla.", "Horno a 200 °C unos 40 min, dándoles la vuelta a mitad.", "Están listos cuando la piel esté dorada y la patata tierna."],
+          rapidaN: "Pechuga de pollo a la plancha + ensalada",
+          aviso: "Saca los contramuslos del congelador"
+        },
+        {
+          comida: "Arroz negro de pescado (Mercadona)",
+          recetaC: ["Es el plato preparado del Mercadona: caliéntalo siguiendo las instrucciones del envase, en sartén o microondas.", "Mientras se calienta, aliña una ensalada rápida si apetece algo fresco al lado.", "Sirve directamente, sin más trabajo."],
+          rapidaC: "Arroz blanco con tomate y huevo frito",
+          cena: "Alubias verdes con patata y huevo cocido",
+          recetaN: ["Cuece las alubias verdes con la patata troceada en agua con sal, unos 15 min.", "Cuece los huevos aparte, 10 min.", "Escurre, aliña con aceite y ajo picado y sirve con el huevo en cuartos."],
+          rapidaN: "Bocadillo de lomo embuchado + ensalada",
+          aviso: ""
+        },
+        {
+          comida: "Alubias rojas guisadas con verdura y taquitos de bacon",
+          recetaC: ["Sofríe cebolla, ajo y tomate natural; dora los taquitos de bacon.", "Añade un poco de agua y deja que el sofrito cueza unos 5 min.", "Echa las alubias del bote, escurridas y enjuagadas, y cuece todo junto 8-10 min.", "Rectifica de sal al final."],
+          rapidaC: "Lentejas rápidas de bote con chorizo",
+          cena: "Hamburguesas (pollo o ternera) en pan brioche con queso + ensalada",
+          recetaN: ["Haz las hamburguesas a la plancha, 3-4 min por cara.", "Pon el queso encima el último minuto para que funda.", "Tuesta el pan brioche y monta con tomate y ensalada."],
+          rapidaN: "Montaditos variados de embutidos + ensalada",
+          aviso: ""
+        },
+        {
+          comida: "Lomo de cerdo a la plancha con pimientos del piquillo y ensalada",
+          recetaC: ["Salpimienta los filetes de lomo y hazlos a la plancha bien caliente, 2-3 min por cara.", "Calienta los pimientos del piquillo en la misma sartén.", "Sirve con una ensalada de tomate y cebolleta."],
+          rapidaC: "Hamburguesa en pan brioche con queso (10 min)",
+          cena: "Pizza del Mercadona + ensalada",
+          recetaN: ["Precalienta el horno según indique el envase.", "Hornea la pizza el tiempo indicado, hasta que el queso burbujee.", "Mientras se hace, aliña la ensalada de acompañamiento."],
+          rapidaN: "Pizza del Mercadona (es la opción oficial)",
+          aviso: "Acuérdate de la pizza del Mercadona"
+        },
+        {
+          comida: "Arroz con pollo y verduras",
+          recetaC: ["Dora el pollo troceado con cebolla y ajo.", "Añade la verdura que tengas (calabacín, alubias verdes…) y el arroz; rehoga 1 min.", "Cubre con agua (el doble que de arroz) y cuece 18 min.", "Deja reposar 5 min tapado antes de servir."],
+          rapidaC: "Huevos fritos con patatas + ensalada",
+          cena: "Crema de setas + tortilla de patata",
+          recetaN: ["Calienta la crema de setas (si es casera: setas salteadas con cebolla, trituradas con un chorro de nata).", "Para la tortilla: pocha patata y cebolla, mezcla con huevo batido y cuaja en la sartén por ambos lados.", "Sirve primero la crema y la tortilla en cuñas."],
+          rapidaN: "Cena fría: yogur, fruta y embutido",
+          aviso: "Hoy toca el prep del domingo (40 min)"
+        }
+      ];
+
+      var PLAN_B = [
+        {
+          comida: "Ensalada de garbanzos con atún y huevo duro",
+          recetaC: ["Cuece los huevos 10 min y déjalos enfriar.", "Mezcla los garbanzos del bote, escurridos y enjuagados, con el atún, tomate y cebolleta picados.", "Aliña con aceite y sal.", "Corona con el huevo en cuartos y unas aceitunas."],
+          rapidaC: "Ensalada con atún, huevo duro y aceitunas",
+          cena: "Tortilla de patata con cebolla + ensalada",
+          recetaN: ["Pocha la patata en rodajas y la cebolla en aceite a fuego medio.", "Mezcla con huevo batido y sal; cuaja en la sartén por ambos lados.", "Acompaña con una ensalada de tomate y cebolleta."],
+          rapidaN: "Bocadillo de jamón serrano y queso de cabra",
+          aviso: ""
+        },
+        {
+          comida: "Arroz blanco con tomate y huevo frito",
+          recetaC: ["Cuece el arroz blanco y mantenlo tapado.", "Calienta el tomate natural triturado con un poco de ajo.", "Fríe los huevos a tu gusto.", "Sirve el arroz con el tomate y el huevo encima."],
+          rapidaC: "Macarrones con tomate y queso (15 min)",
+          cena: "Crema de calabacín + jamón de pavo y queso",
+          recetaN: ["Cuece calabacín y patata con cebolla; tritura con un chorro de leche o de nata.", "Sirve la crema bien caliente.", "Acompaña con unas lonchas de jamón de pavo y queso en cuña."],
+          rapidaN: "Yogur de proteínas + plátano + nueces",
+          aviso: ""
+        },
+        {
+          comida: "Lentejas estofadas con verdura y bacon",
+          recetaC: ["Sofríe cebolla, ajo y tomate natural; dora los taquitos de bacon.", "Añade la verdura que tengas con un poco de agua y cuece unos 10 min.", "Echa las lentejas del bote, escurridas y enjuagadas, y cuece 5-8 min más para que cojan el sabor."],
+          rapidaC: "Crema de calabaza + picatostes de pan de molde",
+          cena: "Merluza en salsa verde con patatas",
+          recetaN: ["Cuece las patatas en rodajas en agua con sal y reserva ese agua.", "Dora ajo laminado en aceite sin que se queme.", "Añade la merluza y un vaso del agua de las patatas; menea la cazuela para ligar la salsa.", "Cuece 6-8 min y sirve sobre las patatas."],
+          rapidaN: "Tortilla francesa con jamón + ensalada",
+          aviso: ""
+        },
+        {
+          comida: "Macarrones con atún, tomate y aceitunas (templados)",
+          recetaC: ["Cuece los macarrones y escúrrelos; deja que templen un poco.", "Mezcla con el atún escurrido, tomate troceado y aceitunas.", "Aliña con aceite y sal y sirve templado."],
+          rapidaC: "Bocadillo de pechuga a la plancha con tomate",
+          cena: "Alitas de pollo al horno con patatas",
+          recetaN: ["Salpimienta las alitas y ponlas en una bandeja con patatas en gajos y cebolla.", "Horno a 200 °C, 35-40 min, dándoles la vuelta a mitad.", "Gratina 5 min al final si las quieres más doradas."],
+          rapidaN: "Ensalada de garbanzos de bote con cebolleta y atún",
+          aviso: "Saca las alitas del congelador"
+        },
+        {
+          comida: "Garbanzos guisados con chorizo y pimiento",
+          recetaC: ["Sofríe cebolla y ajo; dora el chorizo en rodajas y añade el pimiento del piquillo en tiras.", "Echa los garbanzos del bote, escurridos y enjuagados, con un poco de agua.", "Cuece todo junto 8-10 min para que cojan el sabor."],
+          rapidaC: "Salteado rápido de arroz con huevo y bacon",
+          cena: "Noche de bocadillos (embutidos y quesos) + ensalada",
+          recetaN: ["Saca los embutidos y los quesos de la nevera un rato antes para que cojan sabor.", "Monta los bocadillos con pan de molde o brioche: jamón, lomo embuchado, fiambre de pollo, queso de cabra…", "Acompaña con una ensalada de tomate y aceitunas."],
+          rapidaN: "Tabla de embutidos y quesos + pan",
+          aviso: ""
+        },
+        {
+          comida: "Filetes de cabezada con pimientos del piquillo y patatas",
+          recetaC: ["Haz las patatas en gajos al horno (o fritas) con aceite y sal.", "Plancha los filetes de cabezada 3-4 min por cara.", "Calienta los pimientos del piquillo en la misma sartén y sirve todo junto."],
+          rapidaC: "Lomo a la plancha (8 min) + ensalada",
+          cena: "Pizza del Mercadona + ensalada",
+          recetaN: ["Precalienta el horno según indique el envase.", "Hornea la pizza el tiempo indicado, hasta que el queso burbujee.", "Mientras se hace, aliña la ensalada de acompañamiento."],
+          rapidaN: "Pizza del Mercadona (ritual)",
+          aviso: "Acuérdate de la pizza del Mercadona"
+        },
+        {
+          comida: "Costillas de cerdo al horno con patatas",
+          recetaC: ["Salpimienta las costillas y ponlas en una bandeja con patatas en gajos y cebolla.", "Horno a 190 °C unos 50-60 min, dándoles la vuelta a mitad y regándolas con su jugo.", "Están listas cuando la carne se despega del hueso."],
+          rapidaC: "Contramuslos a la plancha + patata cocida",
+          cena: "Crema de calabaza + revuelto de champiñones",
+          recetaN: ["Calienta la crema de calabaza.", "Saltea los champiñones con ajo hasta que suelten el agua.", "Añade huevo batido y remueve a fuego suave hasta que cuaje cremoso."],
+          rapidaN: "Crema de setas + queso en cuña",
+          aviso: "Hoy toca el prep del domingo (40 min)"
+        }
+      ];
+
+      var PLAN_PEQUE_A = [
+        { comida: "Lentejas chafadas con verdura + plátano", merienda: "Yogur bebible + manzana en trozos", cena: "Pollo desmenuzado con patata cocida" },
+        { comida: "Macarrones bien cocidos con tomate y carne picada", merienda: "Tarrina de yogur de frutas", cena: "Merluza desmenuzada con patata" },
+        { comida: "Garbanzos chafados con verdura + huevo cocido", merienda: "Yogur natural con plátano", cena: "Contramuslo desmenuzado con calabacín" },
+        { comida: "Arroz blanco con tomate y pescado desmenuzado", merienda: "Yogur bebible + manzana", cena: "Puré de alubias verdes con patata + tortilla en tiras" },
+        { comida: "Alubias rojas chafadas con verdura", merienda: "Tarrina de yogur de frutas + plátano", cena: "Hamburguesa de pollo desmenuzada con tomate" },
+        { comida: "Lomo en tiras blandas con patata", merienda: "Yogur + fruta", cena: "\u00ABPizza\u00BB de pan de molde con tomate y queso fundido" },
+        { comida: "Arroz con pollo desmenuzado y verdura blanda", merienda: "Yogur bebible + plátano", cena: "Crema de setas suave + tortilla en tiras" }
+      ];
+
+      var PLAN_PEQUE_B = [
+        { comida: "Garbanzos chafados con atún desmenuzado y huevo", merienda: "Yogur bebible + plátano", cena: "Tortilla blanda en tiras + tomate" },
+        { comida: "Arroz con tomate y huevo cocido", merienda: "Tarrina de yogur de frutas", cena: "Puré de calabacín con patata + jamón de pavo en tiras" },
+        { comida: "Lentejas chafadas con verdura", merienda: "Yogur natural + manzana", cena: "Merluza desmenuzada con patata" },
+        { comida: "Macarrones con atún y tomate", merienda: "Yogur bebible + plátano", cena: "Pollo desmenuzado con patata" },
+        { comida: "Garbanzos chafados con verdura", merienda: "Tarrina + manzana", cena: "Bocadillito de pan de molde con queso fundido + tomate" },
+        { comida: "Cabezada en tiras blandas con patata", merienda: "Yogur + fruta", cena: "\u00ABPizza\u00BB de pan de molde con tomate y queso" },
+        { comida: "Costilla desmenuzada tierna con patata", merienda: "Yogur bebible + plátano", cena: "Crema de calabaza + huevo en tiras" }
+      ];
+
+      var COMPRA_A = [
+        { titulo: "Verdura y fruta", items: ["Cebolla · 3,00 €", "Ajos", "Tomate natural · 1,00 €", "Calabaza · 3,00-3,50 €/kg", "Calabacín", "Setas", "Alubias verdes", "Patatas · 5,60 €", "Ensalada", "Cebolleta · 1,70 €", "Aceitunas", "Pimientos del piquillo · 1,45 €", "Plátanos", "Manzanas · 1,80-2,10 €/kg", "Otra fruta"] },
+        { titulo: "Carne", items: ["Pechugas de pollo · 6,65-6,95 €/kg", "Contramuslos de pollo", "Carne picada · 2,75-5,50 €", "Chorizo · 2,49-4,20 €", "Taquitos de bacon", "Hamburguesas de pollo · 2,90-3,80 €", "Hamburguesas de ternera · 2,60-5,40 €", "Lomo de cerdo · 6,24 €"] },
+        { titulo: "Pescado", items: ["Merluza", "Arroz negro de pescado (Mercadona)"] },
+        { titulo: "Lácteos", items: ["Leche entera · 0,96 €", "Yogur natural", "Queso en cuña · 3,73 €", "Queso de cabra en rollo", "Queso mozzarella rallado"] },
+        { titulo: "Despensa", items: ["Lentejas · 0,75 € — de bote de cristal", "Garbanzos · 0,75 € — de bote de cristal", "Alubias rojas — de bote de cristal", "Macarrones · 1,10-1,25 €", "Arroz blanco · 1,99-2,15 €", "Huevos · 2,85-3,35 €", "Pan de molde", "Pan de hamburguesa brioche · 1,10 €", "Atún · 4,90 €", "Pizza del Mercadona (sábado) · 2,50-3,40 €"] }
+      ];
+
+      var COMPRA_B = [
+        { titulo: "Verdura y fruta", items: ["Cebolla · 3,00 €", "Ajos", "Tomate natural · 1,00 €", "Calabaza · 3,00-3,50 €/kg", "Calabacín", "Setas", "Champiñones", "Patatas · 5,60 €", "Ensalada", "Cebolleta · 1,70 €", "Aceitunas", "Pimientos del piquillo · 1,45 €", "Plátanos", "Manzanas · 1,80-2,10 €/kg", "Otra fruta"] },
+        { titulo: "Carne", items: ["Alitas de pollo · 3,26-3,53 €", "Filetes de cabezada", "Costillas de cerdo", "Pechugas de pollo · 6,65-6,95 €/kg", "Chorizo · 2,49-4,20 €"] },
+        { titulo: "Pescado", items: ["Merluza", "Atún · 4,90 €"] },
+        { titulo: "Huevos y lácteos", items: ["Huevos · 2,85-3,35 €", "Leche entera · 0,96 €", "Yogur natural", "Yogures de la peque", "Queso en cuña · 3,73 €", "Queso de cabra en rollo", "Mozzarella rallada"] },
+        { titulo: "Mercadona", items: ["Pizza (sábado) · 2,50-3,40 €", "Galletas · 0,90-1,45 €", "Pipas · 1,35 €", "Pan de molde", "Pan brioche · 1,10 €"] }
+      ];
+
+      var DESPENSA_BASE = [
+        { titulo: "Despensa base", items: ["Lentejas · 0,75 € — de bote de cristal", "Garbanzos · 0,75 € — de bote de cristal", "Alubias rojas — de bote de cristal", "Macarrones · 1,10-1,25 €", "Arroz blanco · 1,99-2,15 €", "Atún en lata · 4,90 €", "Tomate natural · 1,00 €", "Huevos · 2,85-3,35 €", "Leche · 0,96 €", "Aceite de oliva virgen extra · 4,35 €", "Berenjena · 1,50-2,50 €/kg", "Boniato · 1,89-2,55 €/kg", "Pimiento verde · 2,30 €/kg", "Colacao", "Galletas · 0,90-1,45 €", "Pipas · 1,35 €", "Nueces · 2,40 €", "Pan de molde"] }
+      ];
+
+      var VARIAR_HABITUAL = [
+        { nombre: "Alitas de pollo al horno con patatas", tags: ["horno"], desc: "Alitas con patatas en gajos y cebolla, directas al horno." },
+        { nombre: "Costillas de cerdo al horno", tags: ["horno"], desc: "Costillas salpimentadas hasta que la carne se despega del hueso." },
+        { nombre: "Filetes de cabezada con pimientos", tags: ["rapido"], desc: "A la plancha, con los pimientos del piquillo calentados en la misma sartén." },
+        { nombre: "Crema de calabaza o de calabacín (rotar con la de setas)", tags: ["cuchara", "peque"], desc: "La crema de las cenas, en versión calabaza o calabacín para no repetir siempre la de setas." },
+        { nombre: "Ensalada de garbanzos con atún y huevo", tags: ["rapido"], desc: "Garbanzos de bote con atún, huevo duro, tomate y cebolleta." },
+        { nombre: "Revuelto de champiñones", tags: ["rapido"], desc: "Champiñones salteados con ajo y huevo cuajado cremoso." },
+        { nombre: "Muslos de pollo al ajillo", tags: ["horno"], desc: "Muslos dorados al horno con ajos laminados." },
+        { nombre: "Lomo con queso de cabra fundido", tags: ["rapido"], desc: "Filetes de lomo con el rollo de cabra fundido por encima." },
+        { nombre: "Arroz blanco con tomate y huevo", tags: ["rapido", "peque"], desc: "El comodín de siempre: arroz, tomate natural y huevo frito." },
+        { nombre: "Calabacín relleno de carne picada", tags: ["horno"], desc: "Mitades de calabacín rellenas, gratinadas con queso." },
+        { nombre: "Pastel de carne y patata", tags: ["horno"], desc: "Capas de carne picada y puré de patata con queso fundido." },
+        { nombre: "Champiñones rellenos de queso", tags: ["horno", "rapido"], desc: "Champiñones grandes rellenos de queso en cuña, al horno 15 min." },
+        { nombre: "Huevos al plato con tomate", tags: ["horno", "rapido"], desc: "Huevos cuajados sobre tomate natural con jamón." },
+        { nombre: "Macarrones gratinados con carne y nata", tags: ["horno"], desc: "Macarrones con carne picada, nata y queso gratinado." },
+        { nombre: "Pollo con nata y champiñones", tags: ["rapido"], desc: "Tiras de pechuga en salsa de nata y champiñones, con arroz blanco." },
+        { nombre: "Ensalada campera", tags: ["rapido"], desc: "Patata cocida, huevo duro, atún, tomate y aceitunas." },
+        { nombre: "Ensalada de arroz con atún", tags: ["rapido"], desc: "Arroz frío con atún, huevo cocido y aceitunas." },
+        { nombre: "Pisto con huevo", tags: ["cuchara", "rapido"], desc: "Cebolla, pimiento y tomate pochados con huevo cuajado encima." },
+        { nombre: "Sopa castellana", tags: ["cuchara", "rapido"], desc: "Sopa de ajos con pan de molde y huevo." },
+        { nombre: "Fabada rápida de bote", tags: ["cuchara"], desc: "Alubias rojas de bote con chorizo, en 10 minutos." },
+        { nombre: "Merluza a la plancha con ensalada", tags: ["rapido"], desc: "Lomos de merluza a la plancha; una cena ligera." },
+        { nombre: "Revuelto de bacon y queso", tags: ["rapido"], desc: "Huevos revueltos con taquitos de bacon y queso." },
+        { nombre: "Bocadillo de tortilla", tags: ["rapido"], desc: "De la tortilla que sobre, en pan de molde o de barra." },
+        { nombre: "Arroz con leche", tags: ["cuchara"], desc: "Postre de siempre con arroz, leche y canela." },
+        { nombre: "Pimientos rellenos de arroz y carne", tags: ["horno"], desc: "Pimientos verdes rellenos de arroz y carne picada." },
+        { nombre: "Tortilla de calabacín y queso", tags: ["rapido"], desc: "Tortilla jugosa de calabacín con queso fundido." },
+        { nombre: "Ensalada de lentejas con vinagreta", tags: ["rapido"], desc: "Lentejas de bote frías con cebolleta, tomate y aceitunas." },
+        { nombre: "Crema de calabaza y zanahoria", tags: ["cuchara", "peque"], desc: "Crema dulce y suave, perfecta para la peque." },
+        { nombre: "Fingers de pollo caseros", tags: ["horno", "peque"], desc: "Tiras de pechuga rebozadas en pan de molde rallado, al horno." },
+        { nombre: "Lasaña de calabacín", tags: ["horno"], desc: "Láminas de calabacín con carne picada, tomate y queso gratinado, sin pasta." },
+        { nombre: "Merluza con tomate al horno", tags: ["horno", "rapido"], desc: "Lomos de merluza sobre tomate natural con ajo, 20 min." },
+        { nombre: "Brócoli salteado con ajo y jamón", tags: ["rapido"], desc: "Ramilletes de brócoli salteados con ajos laminados y taquitos de jamón." },
+        { nombre: "Macarrones al horno con bechamel", tags: ["horno"], desc: "Macarrones gratinados con bechamel (leche, harina y mantequilla) y mozzarella rallada por encima (la mozzarella es idea nueva de compra)." },
+        { nombre: "Chips de boniato al horno con pimentón dulce", tags: ["horno", "rapido"], desc: "Bastones de boniato al horno con un toque de pimentón dulce (el boniato y el pimentón dulce son idea nueva de compra)." },
+        { nombre: "Ensalada de alubias verdes con patata y atún", tags: ["rapido"], desc: "Alubias verdes y patata cocidas con atún, huevo duro y aceitunas." },
+        { nombre: "Berenjenas rellenas de carne picada al horno", tags: ["horno"], desc: "Mitades de berenjena rellenas de carne picada con tomate, gratinadas con queso (la berenjena es idea nueva de compra)." },
+        { nombre: "Huevos a la flamenca", tags: ["horno", "rapido"], desc: "Huevos cuajados al horno sobre sofrito de tomate con chorizo y taquitos de bacon." },
+        { nombre: "Tortilla de patata con chorizo", tags: ["rapido"], desc: "La tortilla de siempre con taquitos de chorizo dorados entre la patata y el huevo." },
+        { nombre: "Contramuslos de pollo en salsa de tomate con aceitunas", tags: ["cuchara"], desc: "Contramuslos guisados a fuego lento en tomate natural con aceitunas y cebolleta." },
+        { nombre: "Crema de alubias verdes con patata", tags: ["cuchara", "peque"], desc: "Alubias verdes con patata cocidas y trituradas, con un poco de queso fundido; suave para la peque." },
+        { nombre: "Bocadillo de lomo con queso de cabra y pimientos del piquillo", tags: ["rapido"], desc: "Filetes de lomo a la plancha en pan con queso de cabra fundido y pimientos del piquillo." }
+      ];
+
+      var VARIAR_NUEVAS = [
+        { nombre: "Salmón al horno", tags: ["horno"], desc: "Lomos de salmón al horno con patatas (idea nueva de compra)." },
+        { nombre: "Brócoli al vapor con patata", tags: ["rapido"], desc: "Brócoli y patata al vapor con un chorro de aceite." },
+        { nombre: "Wok de pollo con verdura y arroz", tags: ["rapido"], desc: "Tiras de pollo salteadas con verdura y servidas sobre arroz blanco." },
+        { nombre: "Fajitas de pollo con pimiento", tags: ["rapido"], desc: "Pollo y pimiento en tiras para montar en tortillas (idea nueva de compra)." },
+        { nombre: "Merluza en salsa verde", tags: ["rapido"], desc: "Merluza con ajo y el agua de cocer las patatas para ligar la salsa." },
+        { nombre: "Pescado al horno del Mercadona", tags: ["horno"], desc: "Dorada o lubina entera al horno con patatas (idea nueva de compra)." },
+        { nombre: "Sepia a la plancha", tags: ["rapido"], desc: "Sepia del Mercadona a la plancha con ajo y limón (idea nueva de compra)." },
+        { nombre: "Pollo al curry suave con arroz", tags: ["rapido"], desc: "Tiras de pechuga en salsa de curry suave con arroz blanco (el curry en polvo es idea nueva de compra, del Mercadona)." },
+        { nombre: "Salteado oriental de pollo con arroz", tags: ["rapido"], desc: "Pollo salteado con verdura y un toque de salsa de soja (la salsa de soja es idea nueva de compra)." },
+        { nombre: "Bizcocho de yogur", tags: ["horno"], desc: "El de toda la vida con yogur natural, huevo, harina y azúcar (harina y azúcar son idea nueva de compra ocasional)." },
+        { nombre: "Empanadillas de atún al horno", tags: ["horno", "rapido"], desc: "Atún, huevo duro y tomate envueltos en obleas y al horno 15 min (las obleas de empanadilla son idea nueva de compra)." }
+      ];
+
+      var VARIAR_PEQUE = [
+        { nombre: "Purés variados de verdura", tags: ["peque"], desc: "De calabaza, calabacín o alubias verdes, según la semana." },
+        { nombre: "Tortitas de plátano y huevo", tags: ["peque"], desc: "Plátano chafado con huevo, en tortitas blandas a la sartén." },
+        { nombre: "Arroz con tomate y queso fundido", tags: ["peque"], desc: "Arroz bien cocido con tomate y queso fundido por encima." },
+        { nombre: "Pollo desmenuzado con boniato", tags: ["peque"], desc: "Pollo tierno desmenuzado con boniato cocido (idea nueva de compra)." },
+        { nombre: "Albóndigas en salsa de tomate", tags: ["horno", "peque"], desc: "Con carne picada, huevo y pan de molde, en salsa de tomate natural." },
+        { nombre: "Crema de champiñones", tags: ["cuchara", "peque"], desc: "Crema suave de champiñón con un chorro de nata." },
+        { nombre: "Pizza en pan de molde", tags: ["rapido", "peque"], desc: "Base de pan de molde con tomate, queso y lo que haya." },
+        { nombre: "Puré de lentejas con zanahoria", tags: ["cuchara", "peque"], desc: "Lentejas de bote trituradas con zanahoria cocida." }
+      ];
+
+      var TAG_NOMBRES = { rapido: "Rápido", horno: "Horno", cuchara: "Cuchara", peque: "Peque" };
+
+      var CESTA = [
+        { titulo: "Pollo", items: ["Pechugas de pollo", "Hamburguesas de pollo", "Alitas de pollo", "Muslos de pollo", "Contramuslos de pollo"] },
+        { titulo: "Otras carnes", items: ["Hamburguesas de ternera", "Filetes de cabezada de cerdo", "Lomo de cerdo", "Carne picada", "Chorizo", "Taquitos de bacon", "Costillas de cerdo — ocasionalmente"] },
+        { titulo: "Legumbres", items: ["Lentejas — de bote de cristal, ya cocidas", "Garbanzos — de bote de cristal, ya cocidos", "Alubias rojas — de bote de cristal, ya cocidas"] },
+        { titulo: "Verdura y cremas", items: ["Cremas de verduras: setas, calabaza, calabacín", "Brócoli", "Cebolla", "Ajos", "Tomate natural", "Alubias verdes", "Ensalada", "Aceitunas", "Cebolleta", "Patatas", "Pimientos verdes y del piquillo — rara vez", "Champiñones y zanahoria — rara vez"] },
+        { titulo: "Pasta y arroz", items: ["Macarrones", "Arroz blanco"] },
+        { titulo: "Huevos y lácteos", items: ["Huevos", "Leche entera", "Colacao", "Yogur natural", "Yogur de proteínas de sabores (Mercadona)", "Quesos en cuña variados (Mercadona)", "Queso de cabra en rollo", "Nata"] },
+        { titulo: "Pan", items: ["Pan de molde", "Pan de hamburguesa brioche", "Galletas — para los desayunos"] },
+        { titulo: "Embutidos", items: ["Jamón", "Fiambre de pollo 99% / 97%", "Lomo embuchado", "Jamón cocido", "Jamón de pavo"] },
+        { titulo: "Pescado", items: ["Merluza", "Atún (para la ensalada)"] },
+        { titulo: "Fruta y frutos secos", items: ["Plátanos", "Manzanas", "Otra fruta", "Nueces"] },
+        { titulo: "Caprichos y rituales", items: ["Pizzas del Mercadona — los sábados", "Tortilla de patata — a veces", "Arroz negro de pescado del Mercadona — a veces", "Pipas normales del Mercadona — para picar"] },
+        { titulo: "Para la peque", items: ["Yogures bebibles (Mercadona)", "Tarrinas de yogur de frutas (Mercadona)", "Comida familiar adaptada: verduras, carnes y purés"] }
+      ];
+
+      /* ---------- Semana en curso (rotación A/B por semana ISO) ---------- */
+      function semanaISO(fecha) {
+        var d = new Date(Date.UTC(fecha.getFullYear(), fecha.getMonth(), fecha.getDate()));
+        var diaSemana = (d.getUTCDay() + 6) % 7; // lunes = 0
+        d.setUTCDate(d.getUTCDate() - diaSemana + 3); // jueves de esta semana
+        var primerJueves = new Date(Date.UTC(d.getUTCFullYear(), 0, 4));
+        var diaPrimer = (primerJueves.getUTCDay() + 6) % 7;
+        primerJueves.setUTCDate(primerJueves.getUTCDate() - diaPrimer + 3);
+        return 1 + Math.round((d - primerJueves) / (7 * 24 * 3600 * 1000));
+      }
+      var semanaActual = (semanaISO(new Date()) % 2 === 0) ? "A" : "B";
+      var planActual = semanaActual === "A" ? PLAN_A : PLAN_B;
+
+      /* ---------- Render ---------- */
+      function esc(s) {
+        return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
+
+      // Índice del día de hoy alineado con DIAS (lunes = 0)
+      var hoyIdx = (new Date().getDay() + 6) % 7;
+
+      function recetaHTML(pasos) {
+        var html = '<details class="recipe"><summary>Receta en ' + pasos.length + ' pasos</summary><ol>';
+        pasos.forEach(function (p) { html += "<li>" + esc(p) + "</li>"; });
+        html += "</ol></details>";
+        return html;
+      }
+
+      function renderDiasAdultos(contId, plan, prefijo) {
+        var html = "";
+        for (var i = 0; i < 7; i++) {
+          var d = plan[i];
+          var base = prefijo + "-dia" + i;
+          html += '<article class="day' + (i === hoyIdx ? " is-today" : "") + '">';
+          html += '<div class="day-head"><h3>' + DIAS[i] + '</h3><span class="today-badge">Hoy</span></div>';
+          if (d.aviso) {
+            html += '<p class="aviso"><span class="aviso-tag">Aviso</span><span>' + esc(d.aviso) + "</span></p>";
+          }
+          html += '<div class="meal" id="' + base + '-comida"><span class="tag">Comida</span><div class="meal-body"><p>' + esc(d.comida) + "</p>" + recetaHTML(d.recetaC) + "</div></div>";
+          html += '<div class="meal" id="' + base + '-cena"><span class="tag dinner">Cena</span><div class="meal-body"><p>' + esc(d.cena) + "</p>" + recetaHTML(d.recetaN) + "</div></div>";
+          html += '<details class="quick"><summary>Opción rápida</summary><div class="quick-lines">' +
+            '<p id="' + base + '-rapidaC"><strong>Comida:</strong> ' + esc(d.rapidaC) + "</p>" +
+            '<p id="' + base + '-rapidaN"><strong>Cena:</strong> ' + esc(d.rapidaN) + "</p></div></details>";
+          html += "</article>";
+        }
+        document.getElementById(contId).innerHTML = html;
+      }
+
+      function diasPequeHTML(plan, letra) {
+        var html = '<div class="days">';
+        for (var i = 0; i < 7; i++) {
+          var d = plan[i];
+          var base = "peque" + letra + "-dia" + i;
+          html += '<article class="day' + (i === hoyIdx ? " is-today" : "") + '">';
+          html += '<div class="day-head"><h3>' + DIAS[i] + '</h3><span class="today-badge">Hoy</span></div>';
+          html += '<div class="meal" id="' + base + '-comida"><span class="tag">Comida</span><div class="meal-body"><p>' + esc(d.comida) + "</p></div></div>";
+          html += '<div class="meal" id="' + base + '-merienda"><span class="tag snack">Merienda</span><div class="meal-body"><p>' + esc(d.merienda) + "</p></div></div>";
+          html += '<div class="meal" id="' + base + '-cena"><span class="tag dinner">Cena</span><div class="meal-body"><p>' + esc(d.cena) + "</p></div></div>";
+          html += "</article>";
+        }
+        html += "</div>";
+        return html;
+      }
+
+      function renderGrupos(contId, grupos, conCasillas) {
+        var html = "";
+        grupos.forEach(function (g) {
+          html += '<div class="group"><h3>' + esc(g.titulo) + "</h3><ul>";
+          g.items.forEach(function (it) {
+            var partes = it.split(" — ");
+            var inner = esc(partes[0]);
+            if (partes.length > 1) {
+              inner += ' <span class="hint">(' + esc(partes.slice(1).join(" — ")) + ")</span>";
+            }
+            if (conCasillas) {
+              html += '<li class="check"><label><input type="checkbox" class="mark"><span class="item-text">' + inner + "</span></label></li>";
+            } else {
+              html += "<li>" + inner + "</li>";
+            }
+          });
+          html += "</ul></div>";
+        });
+        document.getElementById(contId).innerHTML = html;
+      }
+
+      function platoHTML(p, clase, idAncla) {
+        var html = '<div class="dish ' + clase + '"' + (idAncla ? ' id="' + idAncla + '"' : "") + ' data-tags="' + p.tags.join(" ") + '"><span class="dish-name">' + esc(p.nombre) + "</span>";
+        p.tags.forEach(function (t) {
+          html += '<span class="pill">' + TAG_NOMBRES[t] + "</span>";
+        });
+        if (p.desc) html += '<span class="dish-desc">' + esc(p.desc) + "</span>";
+        html += "</div>";
+        return html;
+      }
+
+      function renderPlatos(contId, platos, clase, prefijoId) {
+        var html = "";
+        platos.forEach(function (p, idx) { html += platoHTML(p, clase, prefijoId ? prefijoId + idx : null); });
+        document.getElementById(contId).innerHTML = html;
+      }
+
+      /* ---------- Sugerencias del día (rotan solas por fecha) ---------- */
+      var BANCO = [];
+      VARIAR_HABITUAL.forEach(function (p) { BANCO.push({ plato: p, clase: "" }); });
+      VARIAR_NUEVAS.forEach(function (p) { BANCO.push({ plato: p, clase: "new" }); });
+      VARIAR_PEQUE.forEach(function (p) { BANCO.push({ plato: p, clase: "kid" }); });
+
+      // PRNG determinista: misma fecha -> mismas sugerencias en cualquier móvil
+      function mulberry32(a) {
+        return function () {
+          a |= 0; a = a + 0x6D2B79F5 | 0;
+          var t = Math.imul(a ^ a >>> 15, 1 | a);
+          t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+          return ((t ^ t >>> 14) >>> 0) / 4294967296;
+        };
+      }
+
+      function elegirTres(rng, excluir) {
+        var pool = BANCO.filter(function (item) { return excluir.indexOf(item) === -1; });
+        var copia = pool.slice();
+        for (var i = copia.length - 1; i > 0; i--) {
+          var j = Math.floor(rng() * (i + 1));
+          var tmp = copia[i]; copia[i] = copia[j]; copia[j] = tmp;
+        }
+        return copia.slice(0, 3);
+      }
+
+      function mostrarSugerencias(lista) {
+        var html = "";
+        lista.forEach(function (item) { html += platoHTML(item.plato, item.clase); });
+        document.getElementById("sugerencias").innerHTML = html;
+      }
+
+      var hoyFecha = new Date();
+      var semillaHoy = hoyFecha.getFullYear() * 10000 + (hoyFecha.getMonth() + 1) * 100 + hoyFecha.getDate();
+      var sugerenciasActuales = elegirTres(mulberry32(semillaHoy), []);
+      mostrarSugerencias(sugerenciasActuales);
+
+      document.getElementById("btnMasIdeas").addEventListener("click", function () {
+        sugerenciasActuales = elegirTres(Math.random, sugerenciasActuales);
+        mostrarSugerencias(sugerenciasActuales);
+      });
+
+      /* ---------- Sugerencia de desayuno del día (rota sola por fecha) ---------- */
+      var DESAYUNOS_ELLA = [
+        "Colacao con galletas",
+        "Batido de leche con plátano",
+        "Yogur bebible",
+        "Yogur natural con un poco de miel",
+        "Una pieza de fruta (plátano o manzana)",
+        "Yogur de proteínas de sabores",
+        "Plátano con yogur natural y un poco de miel",
+        "Leche fría con galletas María",
+        "Batido de leche, plátano y una cucharada de Colacao"
+      ];
+      var DESAYUNOS_EL = [
+        "Tostadas con tomate o con queso",
+        "Pan con embutido (jamón, lomo embuchado, fiambre de pollo…)",
+        "Yogur con nueces",
+        "Colacao con galletas",
+        "Tortitas de plátano y huevo (5 minutos)",
+        "Pan de molde con queso de cabra y miel",
+        "Yogur natural con manzana y nueces",
+        "Bocadillito de jamón cocido y queso",
+        "Batido de leche con plátano"
+      ];
+      var rngDesayuno = mulberry32(semillaHoy + 7919);
+      document.getElementById("desayunoElla").textContent =
+        DESAYUNOS_ELLA[Math.floor(rngDesayuno() * DESAYUNOS_ELLA.length)];
+      document.getElementById("desayunoEl").textContent =
+        DESAYUNOS_EL[Math.floor(rngDesayuno() * DESAYUNOS_EL.length)];
+
+      renderDiasAdultos("daysA", PLAN_A, "semanaA");
+      renderDiasAdultos("daysB", PLAN_B, "semanaB");
+
+      // La peque: primero la semana en curso, después la otra
+      var ordenPeque = semanaActual === "A"
+        ? [{ letra: "A", plan: PLAN_PEQUE_A }, { letra: "B", plan: PLAN_PEQUE_B }]
+        : [{ letra: "B", plan: PLAN_PEQUE_B }, { letra: "A", plan: PLAN_PEQUE_A }];
+      var kidHTML = "";
+      ordenPeque.forEach(function (s, idx) {
+        kidHTML += '<h3 class="subhead">Semana ' + s.letra + (idx === 0 ? " · en curso" : "") + "</h3>";
+        kidHTML += diasPequeHTML(s.plan, s.letra);
+      });
+      document.getElementById("kidWeeks").innerHTML = kidHTML;
+
+      renderGrupos("shopGroupsA", COMPRA_A, true);
+      renderGrupos("shopGroupsB", COMPRA_B, true);
+      renderGrupos("shopGroupsBase", DESPENSA_BASE, true);
+      renderGrupos("basketGroups", CESTA, true);
+      renderPlatos("varyUsual", VARIAR_HABITUAL, "", "variar-habitual-");
+      renderPlatos("varyNew", VARIAR_NUEVAS, "new", "variar-nueva-");
+      renderPlatos("varyKid", VARIAR_PEQUE, "kid", "variar-peque-");
+
+      /* ---------- Cabecera: día de hoy según la semana en curso ---------- */
+      var hoyPlan = planActual[hoyIdx];
+      document.getElementById("todayText").textContent =
+        "Hoy es " + DIAS[hoyIdx].toLowerCase() + " (semana " + semanaActual + "): " +
+        hoyPlan.comida.split("+")[0].trim().toLowerCase() + " y, de cena, " + hoyPlan.cena.split("+")[0].trim().toLowerCase() + ".";
+
+      document.getElementById(semanaActual === "A" ? "flagA" : "flagB").classList.add("on");
+
+      /* ---------- Casillas de la compra y la cesta ---------- */
+      /* Las marcas se guardan en el navegador (localStorage) para que
+         sigan ahí aunque se cierre la página. Si el navegador no deja
+         guardar (modo privado, archivo local sin permiso…), la página
+         sigue funcionando igual, solo que las marcas duran la sesión. */
+      var MARCAS_KEY = "plan-comidas-marcas-v1";
+      function cargarMarcas() {
+        try {
+          var raw = localStorage.getItem(MARCAS_KEY);
+          var datos = raw ? JSON.parse(raw) : {};
+          return datos && typeof datos === "object" ? datos : {};
+        } catch (e) { return {}; }
+      }
+      function guardarMarcas() {
+        try { localStorage.setItem(MARCAS_KEY, JSON.stringify(marcasGuardadas)); } catch (e) {}
+      }
+      var marcasGuardadas = cargarMarcas();
+
+      // Clave estable por artículo: contenedor + grupo + nombre (sin el
+      // paréntesis de cantidad/precio, para que no se pierda la marca
+      // cuando se actualicen los precios).
+      function claveMarca(box) {
+        var li = box.closest("li");
+        var grupo = box.closest(".group");
+        var cont = box.closest("[id]");
+        var titulo = grupo && grupo.querySelector("h3") ? grupo.querySelector("h3").textContent : "";
+        var nombre = "";
+        var span = li ? li.querySelector(".item-text") : null;
+        if (span) {
+          for (var i = 0; i < span.childNodes.length; i++) {
+            if (span.childNodes[i].nodeType === 3) nombre += span.childNodes[i].nodeValue;
+          }
+        }
+        return (cont ? cont.id : "") + "|" + titulo + "|" + nombre.trim();
+      }
+      function aplicarMarcas() {
+        document.querySelectorAll("input.mark").forEach(function (box) {
+          if (marcasGuardadas[claveMarca(box)]) {
+            box.checked = true;
+            var li = box.closest("li");
+            if (li) li.classList.add("done");
+          }
+        });
+      }
+
+      function actualizarCuentas() {
+        [["panel-compra", "cuentaCompra"], ["panel-cesta", "cuentaCesta"]].forEach(function (par) {
+          var panel = document.getElementById(par[0]);
+          var total = panel.querySelectorAll("input.mark").length;
+          var marcadas = panel.querySelectorAll("input.mark:checked").length;
+          document.getElementById(par[1]).textContent = marcadas + " de " + total + " marcados";
+        });
+      }
+      document.addEventListener("change", function (ev) {
+        if (ev.target.classList && ev.target.classList.contains("mark")) {
+          var li = ev.target.closest("li");
+          if (li) li.classList.toggle("done", ev.target.checked);
+          var clave = claveMarca(ev.target);
+          if (ev.target.checked) marcasGuardadas[clave] = true;
+          else delete marcasGuardadas[clave];
+          guardarMarcas();
+          actualizarCuentas();
+        }
+      });
+      [["resetCompra", "panel-compra"], ["resetCesta", "panel-cesta"]].forEach(function (par) {
+        document.getElementById(par[0]).addEventListener("click", function () {
+          document.getElementById(par[1]).querySelectorAll("input.mark").forEach(function (box) {
+            box.checked = false;
+            var li = box.closest("li");
+            if (li) li.classList.remove("done");
+            delete marcasGuardadas[claveMarca(box)];
+          });
+          guardarMarcas();
+          actualizarCuentas();
+        });
+      });
+      aplicarMarcas();
+      actualizarCuentas();
+
+      /* ---------- Buscador por ingrediente ---------- */
+      function normalizar(s) {
+        return s.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      }
+      // Raíz simple para que "pechugas" encuentre "pechuga" y al revés
+      function raiz(palabra) {
+        if (palabra.length > 4 && palabra.slice(-2) === "es") return palabra.slice(0, -2);
+        if (palabra.length > 3 && palabra.slice(-1) === "s") return palabra.slice(0, -1);
+        return palabra;
+      }
+
+      var INDICE = [];
+      function addIndice(nombre, texto, origen, destino, ancla) {
+        INDICE.push({ nombre: nombre, texto: normalizar(nombre + " " + texto), origen: origen, destino: destino, ancla: ancla });
+      }
+      [["A", PLAN_A], ["B", PLAN_B]].forEach(function (par) {
+        var letra = par[0], destino = "semana" + letra;
+        par[1].forEach(function (d, i) {
+          var base = destino + "-dia" + i;
+          addIndice(d.comida, d.recetaC.join(" "), "Semana " + letra + " · " + DIAS[i] + " · comida", destino, base + "-comida");
+          addIndice(d.cena, d.recetaN.join(" "), "Semana " + letra + " · " + DIAS[i] + " · cena", destino, base + "-cena");
+          addIndice(d.rapidaC, d.rapidaC, "Opción rápida · Semana " + letra + " · " + DIAS[i] + " · comida", destino, base + "-rapidaC");
+          addIndice(d.rapidaN, d.rapidaN, "Opción rápida · Semana " + letra + " · " + DIAS[i] + " · cena", destino, base + "-rapidaN");
+        });
+      });
+      [["A", PLAN_PEQUE_A], ["B", PLAN_PEQUE_B]].forEach(function (par) {
+        par[1].forEach(function (d, i) {
+          var base = "peque" + par[0] + "-dia" + i;
+          addIndice(d.comida, d.comida, "La peque · Semana " + par[0] + " · " + DIAS[i] + " · comida", "peque", base + "-comida");
+          addIndice(d.merienda, d.merienda, "La peque · Semana " + par[0] + " · " + DIAS[i] + " · merienda", "peque", base + "-merienda");
+          addIndice(d.cena, d.cena, "La peque · Semana " + par[0] + " · " + DIAS[i] + " · cena", "peque", base + "-cena");
+        });
+      });
+      VARIAR_HABITUAL.forEach(function (p, i) { addIndice(p.nombre, p.desc || "", "Para variar", "variar", "variar-habitual-" + i); });
+      VARIAR_NUEVAS.forEach(function (p, i) { addIndice(p.nombre, p.desc || "", "Para variar · idea nueva", "variar", "variar-nueva-" + i); });
+      VARIAR_PEQUE.forEach(function (p, i) { addIndice(p.nombre, p.desc || "", "Para variar · peque", "variar", "variar-peque-" + i); });
+
+      var inputBuscador = document.getElementById("buscadorInput");
+      var estadoBuscador = document.getElementById("buscadorEstado");
+      var contResultados = document.getElementById("resultados");
+
+      function buscar() {
+        var escrito = inputBuscador.value.trim();
+        var q = normalizar(escrito);
+        if (q.length < 2) {
+          contResultados.innerHTML = "";
+          estadoBuscador.textContent = q.length === 0
+            ? "Busca entre " + INDICE.length + " platos: los del plan de las dos semanas, los de la peque y los del banco para variar."
+            : "Sigue escribiendo…";
+          return;
+        }
+        var palabras = q.split(/\s+/).map(raiz);
+        var encontrados = INDICE.filter(function (e) {
+          return palabras.every(function (p) { return e.texto.indexOf(p) !== -1; });
+        });
+        if (!encontrados.length) {
+          estadoBuscador.textContent = "Ningún plato lleva «" + escrito + "». Prueba con otro ingrediente de la cesta.";
+          contResultados.innerHTML = "";
+          return;
+        }
+        estadoBuscador.textContent = encontrados.length + (encontrados.length === 1 ? " plato lleva " : " platos llevan ") + "«" + escrito + "»:";
+        var html = "";
+        encontrados.forEach(function (e) {
+          html += '<div class="dish"><span class="dish-name">' + esc(e.nombre) + '</span><span class="pill">' + esc(e.origen) + '</span><button type="button" class="goto" data-goto="' + e.destino + '" data-ancla="' + e.ancla + '">Ver</button></div>';
+        });
+        contResultados.innerHTML = html;
+      }
+      inputBuscador.addEventListener("input", buscar);
+      buscar();
+
+      document.getElementById("buscadorChips").addEventListener("click", function (ev) {
+        var b = ev.target.closest ? ev.target.closest("button[data-q]") : null;
+        if (!b) return;
+        inputBuscador.value = b.getAttribute("data-q");
+        buscar();
+        inputBuscador.focus();
+      });
+      contResultados.addEventListener("click", function (ev) {
+        var btn = ev.target.closest ? ev.target.closest("button[data-goto]") : null;
+        if (!btn) return;
+        var tabBtn = document.getElementById("tab-" + btn.getAttribute("data-goto"));
+        var el = document.getElementById(btn.getAttribute("data-ancla"));
+        if (tabBtn) activar(tabBtn, !!el);
+        if (!el) return;
+        // Si un filtro de «Para variar» lo tiene oculto, se muestra todo
+        if (el.classList.contains("hidden")) {
+          var btnTodos = document.querySelector('.filters button[data-filter="todos"]');
+          if (btnTodos) btnTodos.click();
+        }
+        // Si el plato está dentro de un desplegable cerrado (opción rápida), se abre
+        var det = el.closest ? el.closest("details") : null;
+        if (det && !det.open) det.open = true;
+        var reducir = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        el.scrollIntoView({ behavior: reducir ? "auto" : "smooth", block: "center" });
+        el.classList.remove("flash");
+        void el.offsetWidth; // reinicia la animación si se pulsa «Ver» dos veces
+        el.classList.add("flash");
+        setTimeout(function () { el.classList.remove("flash"); }, 3400);
+      });
+
+      /* ---------- Pestañas ---------- */
+      var tabs = Array.prototype.slice.call(document.querySelectorAll("nav.tabs button"));
+      function activar(btn, sinSubir) {
+        tabs.forEach(function (b) { b.setAttribute("aria-selected", b === btn ? "true" : "false"); });
+        document.querySelectorAll("section.panel").forEach(function (p) { p.classList.remove("active"); });
+        document.getElementById("panel-" + btn.getAttribute("data-tab")).classList.add("active");
+        if (!sinSubir) window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      tabs.forEach(function (btn) {
+        btn.addEventListener("click", function () { activar(btn); });
+      });
+      // Al abrir, se muestra la semana en curso
+      activar(document.getElementById(semanaActual === "A" ? "tab-semanaA" : "tab-semanaB"));
+
+      /* ---------- Filtros de "Para variar" ---------- */
+      var filterBtns = Array.prototype.slice.call(document.querySelectorAll(".filters button"));
+      filterBtns.forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var f = btn.getAttribute("data-filter");
+          filterBtns.forEach(function (b) { b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
+          document.querySelectorAll("#varyUsual .dish, #varyNew .dish, #varyKid .dish").forEach(function (dish) {
+            var tags = (dish.getAttribute("data-tags") || "").split(" ");
+            dish.classList.toggle("hidden", f !== "todos" && tags.indexOf(f) === -1);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
