@@ -547,6 +547,61 @@
       }
       .group li.check.done .item-text { text-decoration: line-through; color: var(--ink-soft); }
 
+      /* ---------- Colesterol ---------- */
+      .badge-colesterol {
+        display: inline-block;
+        background: var(--accent);
+        color: var(--accent-ink);
+        font-size: 11.5px;
+        font-weight: 900;
+        letter-spacing: .02em;
+        padding: 2px 9px;
+        border-radius: 999px;
+        vertical-align: 2px;
+        white-space: nowrap;
+      }
+      .dish .badge-colesterol { vertical-align: 0; }
+      .adaptado {
+        background: var(--accent-soft);
+        border-radius: 10px;
+        padding: 9px 12px;
+        margin-top: 8px;
+        font-size: 14px;
+        color: var(--ink);
+      }
+      .adaptado strong { color: var(--accent); }
+      .adapt-line {
+        font-size: 13.5px;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .col-cat { margin: 0 0 14px; }
+      .col-cat:last-child { margin-bottom: 0; }
+      .col-cat h4 {
+        margin: 0 0 7px;
+        font-size: 13px;
+        font-weight: 900;
+        letter-spacing: .05em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      .col-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+      .col-chip {
+        background: var(--surface);
+        border: 1px solid var(--line-strong);
+        color: var(--ink);
+        font-size: 14px;
+        font-weight: 700;
+        padding: 4px 11px;
+        border-radius: 999px;
+      }
+      .col-chip em { font-style: normal; color: var(--ink-soft); font-size: 12.5px; font-weight: 800; }
+      #filtroColBuscador[aria-pressed="true"] {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: var(--accent-ink);
+      }
+
       footer.page {
         margin-top: 34px;
         color: var(--ink-soft);
@@ -591,6 +646,10 @@
         <button role="tab" aria-selected="false" data-tab="variar" id="tab-variar">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M21 3l-7.5 7.5M8 21H3v-5M3 21l7.5-7.5"/></svg>
           Para variar
+        </button>
+        <button role="tab" aria-selected="false" data-tab="colesterol" id="tab-colesterol">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21C7 16.5 3 13.2 3 9.3 3 6.4 5.2 4.5 7.7 4.5c1.7 0 3.4 1 4.3 2.4.9-1.4 2.6-2.4 4.3-2.4 2.5 0 4.7 1.9 4.7 4.8 0 3.9-4 7.2-9 11.7Z"/></svg>
+          Colesterol
         </button>
         <button role="tab" aria-selected="false" data-tab="buscador" id="tab-buscador">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.8-3.8"/></svg>
@@ -683,14 +742,16 @@
           <h3>Para ella · suaves y ligeros</h3>
           <ul>
             <li><strong>Colacao con galletas</strong> — el de siempre, el que nunca falla.</li>
-            <li><strong>Batido de leche con plátano</strong> — un minuto de batidora y entra solo.</li>
+            <li><strong>Batido de leche con plátano</strong> — un minuto de batidora y entra solo. <span class="badge-colesterol">Apto colesterol · versión adaptada</span><br /><span class="adapt-line">Versión apta: cambia la leche entera por leche semidesnatada.</span></li>
             <li><strong>Yogur bebible</strong> — abrir y listo.</li>
-            <li><strong>Yogur natural con un poco de miel</strong> — dulce y suave.</li>
-            <li><strong>Una pieza de fruta</strong> — plátano o manzana, sin más.</li>
+            <li><strong>Yogur natural con un poco de miel</strong> — dulce y suave. <span class="badge-colesterol">Apto colesterol</span></li>
+            <li><strong>Una pieza de fruta</strong> — plátano o manzana, sin más. <span class="badge-colesterol">Apto colesterol</span></li>
             <li><strong>Yogur de proteínas de sabores</strong> — el del Mercadona, abrir y listo.</li>
-            <li><strong>Plátano con yogur natural y un poco de miel</strong> — dulce, suave y sin cocinar nada.</li>
+            <li><strong>Plátano con yogur natural y un poco de miel</strong> — dulce, suave y sin cocinar nada. <span class="badge-colesterol">Apto colesterol</span></li>
             <li><strong>Leche fría con galletas María</strong> — fresquita y ligera.</li>
             <li><strong>Batido de leche, plátano y una cucharada de Colacao</strong> — el Colacao de siempre, en versión batido.</li>
+            <li><strong>Yogur natural con avena y nueces</strong> — la avena y las nueces son de lo que más ayuda; se monta en un minuto. <span class="badge-colesterol">Apto colesterol</span></li>
+            <li><strong>Avena con leche semidesnatada y fruta</strong> — copos de avena con leche y trozos de manzana o plátano; tibia o fría, entra sola. <span class="badge-colesterol">Apto colesterol</span></li>
           </ul>
         </div>
 
@@ -700,11 +761,11 @@
             <li>Todo lo de arriba, más:</li>
             <li>Tostadas con tomate o con queso</li>
             <li>Pan con embutido (jamón, lomo embuchado, fiambre de pollo…)</li>
-            <li>Yogur con nueces</li>
+            <li>Yogur con nueces <span class="badge-colesterol">Apto colesterol</span></li>
             <li>Colacao con galletas</li>
             <li>Tortitas de plátano y huevo — se hacen en 5 minutos</li>
             <li>Pan de molde con queso de cabra y miel</li>
-            <li>Yogur natural con manzana y nueces</li>
+            <li>Yogur natural con manzana y nueces <span class="badge-colesterol">Apto colesterol</span></li>
             <li>Bocadillito de jamón cocido y queso</li>
           </ul>
         </div>
@@ -781,6 +842,7 @@
           <button type="button" data-filter="horno" aria-pressed="false">Horno</button>
           <button type="button" data-filter="cuchara" aria-pressed="false">Cuchara</button>
           <button type="button" data-filter="peque" aria-pressed="false">Peque</button>
+          <button type="button" data-filter="colesterol" aria-pressed="false">Colesterol</button>
         </div>
 
         <h3 class="subhead">Con lo que ya compráis</h3>
@@ -794,6 +856,32 @@
         <h3 class="subhead">Para la peque</h3>
         <p class="subnote">Variantes blandas para sus comidas y meriendas.</p>
         <div class="dish-grid" id="varyKid"></div>
+      </section>
+
+      <!-- ============ 7b. COLESTEROL ============ -->
+      <section class="panel" id="panel-colesterol" role="tabpanel" aria-labelledby="tab-colesterol">
+        <h2>Colesterol</h2>
+        <p class="lede">Los platos del plan que encajan con una alimentación pensada para cuidar el colesterol, reunidos en un solo sitio: la cesta de alimentos que los sostiene y las recetas aptas por categorías. Los mismos platos llevan el distintivo verde «Apto colesterol» en las semanas, los desayunos y el banco.</p>
+
+        <div class="block green">
+          <h3>Integral: preferible, no obligatorio</h3>
+          <p>El pan y el arroz integrales aportan más fibra y ayudan algo más, así que son la opción preferible cuando los haya. Pero <strong>no son obligatorios</strong>: un plato con pan o arroz blanco también cuenta como apto si el resto encaja. Estas marcas son una ayuda para elegir en el día a día; no sustituyen el consejo del médico ni la medicación.</p>
+        </div>
+
+        <div class="block green">
+          <h3>La cesta colesterol</h3>
+          <p class="subnote">La lista corta de alimentos que sostiene estos platos: normales, asequibles y casi todos ya están en vuestra cesta habitual.</p>
+          <div id="cestaCol"><!-- generado por JS --></div>
+        </div>
+
+        <div class="block green">
+          <h3>Hoy te sugerimos</h3>
+          <p class="subnote">Tres platos aptos para hoy. Cambian solos cada día; si no te convencen, pide otros.</p>
+          <div class="dish-grid" id="sugerenciasCol"><!-- generado por JS --></div>
+          <button type="button" class="more-ideas" id="btnMasIdeasCol">Dame otras ideas</button>
+        </div>
+
+        <div id="colGrupos"><!-- generado por JS --></div>
       </section>
 
       <!-- ============ 8. BUSCADOR ============ -->
@@ -814,6 +902,9 @@
           <button type="button" data-q="queso">Queso</button>
           <button type="button" data-q="atún">Atún</button>
           <button type="button" data-q="patata">Patata</button>
+        </div>
+        <div class="chips">
+          <button type="button" id="filtroColBuscador" aria-pressed="false">Solo aptos colesterol</button>
         </div>
         <p class="search-status" id="buscadorEstado"></p>
         <div class="dish-grid" id="resultados"></div>
@@ -993,23 +1084,23 @@
       ];
 
       var COMPRA_A = [
-        { titulo: "Verdura y fruta", items: ["Cebolla · 3,00 €", "Ajos", "Tomate natural · 1,00 €", "Calabaza · 3,00-3,50 €/kg", "Calabacín", "Setas", "Alubias verdes", "Patatas · 5,60 €", "Ensalada", "Cebolleta · 1,70 €", "Aceitunas", "Pimientos del piquillo · 1,45 €", "Plátanos", "Manzanas · 1,80-2,10 €/kg", "Otra fruta"] },
-        { titulo: "Carne", items: ["Pechugas de pollo · 6,65-6,95 €/kg", "Contramuslos de pollo", "Carne picada · 2,75-5,50 €", "Chorizo · 2,49-4,20 €", "Taquitos de bacon", "Hamburguesas de pollo · 2,90-3,80 €", "Hamburguesas de ternera · 2,60-5,40 €", "Lomo de cerdo · 6,24 €"] },
-        { titulo: "Pescado", items: ["Merluza", "Arroz negro de pescado (Mercadona)"] },
-        { titulo: "Lácteos", items: ["Leche entera · 0,96 €", "Yogur natural", "Queso en cuña · 3,73 €", "Queso de cabra en rollo", "Queso mozzarella rallado"] },
-        { titulo: "Despensa", items: ["Lentejas · 0,75 € — de bote de cristal", "Garbanzos · 0,75 € — de bote de cristal", "Alubias rojas — de bote de cristal", "Macarrones · 1,10-1,25 €", "Arroz blanco · 1,99-2,15 €", "Huevos · 2,85-3,35 €", "Pan de molde", "Pan de hamburguesa brioche · 1,10 €", "Atún · 4,90 €", "Pizza del Mercadona (sábado) · 2,50-3,40 €"] }
+        { titulo: "Verdura y fruta", items: ["Cebolla · 3,00 €", "Ajos", "Tomate natural · 1,00 €", "Calabaza · 3,00-3,50 €/kg", "Calabacín", "Setas", "Alubias verdes", "Espinacas", "Brócoli", "Cardo — alguna vez", "Patatas · 5,60 €", "Ensalada", "Cebolleta · 1,70 €", "Aceitunas", "Pimientos del piquillo · 1,45 €", "Plátanos", "Manzanas · 1,80-2,10 €/kg", "Aguacate — de vez en cuando", "Otra fruta"] },
+        { titulo: "Carne", items: ["Pechugas de pollo · 6,65-6,95 €/kg", "Contramuslos de pollo", "Pechuga de pavo", "Conejo — ocasionalmente", "Carne picada · 2,75-5,50 €", "Chorizo · 2,49-4,20 €", "Taquitos de bacon", "Hamburguesas de pollo · 2,90-3,80 €", "Hamburguesas de ternera · 2,60-5,40 €", "Lomo de cerdo · 6,24 € — magro, sin grasa visible"] },
+        { titulo: "Pescado", items: ["Merluza", "Atún en lata · 4,90 €", "Salmón — muy de vez en cuando", "Arroz negro de pescado (Mercadona)"] },
+        { titulo: "Lácteos", items: ["Leche entera · 0,96 €", "Leche semidesnatada", "Yogur natural", "Queso fresco bajo en grasa", "Queso en cuña · 3,73 €", "Queso de cabra en rollo", "Queso mozzarella rallado"] },
+        { titulo: "Despensa", items: ["Lentejas · 0,75 € — de bote de cristal", "Garbanzos · 0,75 € — de bote de cristal", "Alubias rojas — de bote de cristal", "Macarrones · 1,10-1,25 €", "Arroz blanco · 1,99-2,15 €", "Arroz integral", "Avena", "Huevos · 2,85-3,35 €", "Pan de molde", "Pan integral", "Pan de hamburguesa brioche · 1,10 €", "Atún · 4,90 €", "Pizza del Mercadona (sábado) · 2,50-3,40 €"] }
       ];
 
       var COMPRA_B = [
-        { titulo: "Verdura y fruta", items: ["Cebolla · 3,00 €", "Ajos", "Tomate natural · 1,00 €", "Calabaza · 3,00-3,50 €/kg", "Calabacín", "Setas", "Champiñones", "Patatas · 5,60 €", "Ensalada", "Cebolleta · 1,70 €", "Aceitunas", "Pimientos del piquillo · 1,45 €", "Plátanos", "Manzanas · 1,80-2,10 €/kg", "Otra fruta"] },
-        { titulo: "Carne", items: ["Alitas de pollo · 3,26-3,53 €", "Filetes de cabezada", "Costillas de cerdo", "Pechugas de pollo · 6,65-6,95 €/kg", "Chorizo · 2,49-4,20 €"] },
-        { titulo: "Pescado", items: ["Merluza", "Atún · 4,90 €"] },
-        { titulo: "Huevos y lácteos", items: ["Huevos · 2,85-3,35 €", "Leche entera · 0,96 €", "Yogur natural", "Yogures de la peque", "Queso en cuña · 3,73 €", "Queso de cabra en rollo", "Mozzarella rallada"] },
-        { titulo: "Mercadona", items: ["Pizza (sábado) · 2,50-3,40 €", "Galletas · 0,90-1,45 €", "Pipas · 1,35 €", "Pan de molde", "Pan brioche · 1,10 €"] }
+        { titulo: "Verdura y fruta", items: ["Cebolla · 3,00 €", "Ajos", "Tomate natural · 1,00 €", "Calabaza · 3,00-3,50 €/kg", "Calabacín", "Setas", "Champiñones", "Espinacas", "Brócoli", "Cardo — alguna vez", "Patatas · 5,60 €", "Ensalada", "Cebolleta · 1,70 €", "Aceitunas", "Pimientos del piquillo · 1,45 €", "Plátanos", "Manzanas · 1,80-2,10 €/kg", "Aguacate — de vez en cuando", "Otra fruta"] },
+        { titulo: "Carne", items: ["Alitas de pollo · 3,26-3,53 €", "Filetes de cabezada", "Costillas de cerdo", "Pechugas de pollo · 6,65-6,95 €/kg", "Pechuga de pavo", "Conejo — ocasionalmente", "Chorizo · 2,49-4,20 €"] },
+        { titulo: "Pescado", items: ["Merluza", "Atún · 4,90 €", "Salmón — muy de vez en cuando"] },
+        { titulo: "Huevos y lácteos", items: ["Huevos · 2,85-3,35 €", "Leche entera · 0,96 €", "Leche semidesnatada", "Yogur natural", "Queso fresco bajo en grasa", "Yogures de la peque", "Queso en cuña · 3,73 €", "Queso de cabra en rollo", "Mozzarella rallada"] },
+        { titulo: "Mercadona", items: ["Pizza (sábado) · 2,50-3,40 €", "Galletas · 0,90-1,45 €", "Pipas · 1,35 €", "Pan de molde", "Pan integral", "Avena", "Arroz integral", "Pan brioche · 1,10 €"] }
       ];
 
       var DESPENSA_BASE = [
-        { titulo: "Despensa base", items: ["Lentejas · 0,75 € — de bote de cristal", "Garbanzos · 0,75 € — de bote de cristal", "Alubias rojas — de bote de cristal", "Macarrones · 1,10-1,25 €", "Arroz blanco · 1,99-2,15 €", "Atún en lata · 4,90 €", "Tomate natural · 1,00 €", "Huevos · 2,85-3,35 €", "Leche · 0,96 €", "Aceite de oliva virgen extra · 4,35 €", "Berenjena · 1,50-2,50 €/kg", "Boniato · 1,89-2,55 €/kg", "Pimiento verde · 2,30 €/kg", "Colacao", "Galletas · 0,90-1,45 €", "Pipas · 1,35 €", "Nueces · 2,40 €", "Pan de molde"] }
+        { titulo: "Despensa base", items: ["Lentejas · 0,75 € — de bote de cristal", "Garbanzos · 0,75 € — de bote de cristal", "Alubias rojas — de bote de cristal", "Macarrones · 1,10-1,25 €", "Arroz blanco · 1,99-2,15 €", "Arroz integral", "Avena", "Atún en lata · 4,90 €", "Tomate natural · 1,00 €", "Huevos · 2,85-3,35 €", "Leche · 0,96 €", "Aceite de oliva virgen extra · 4,35 €", "Berenjena · 1,50-2,50 €/kg", "Boniato · 1,89-2,55 €/kg", "Pimiento verde · 2,30 €/kg", "Colacao", "Galletas · 0,90-1,45 €", "Pipas · 1,35 €", "Nueces · 2,40 €", "Pan de molde", "Pan integral"] }
       ];
 
       var VARIAR_HABITUAL = [
@@ -1067,7 +1158,11 @@
         { nombre: "Pollo al curry suave con arroz", tags: ["rapido"], desc: "Tiras de pechuga en salsa de curry suave con arroz blanco (el curry en polvo es idea nueva de compra, del Mercadona)." },
         { nombre: "Salteado oriental de pollo con arroz", tags: ["rapido"], desc: "Pollo salteado con verdura y un toque de salsa de soja (la salsa de soja es idea nueva de compra)." },
         { nombre: "Bizcocho de yogur", tags: ["horno"], desc: "El de toda la vida con yogur natural, huevo, harina y azúcar (harina y azúcar son idea nueva de compra ocasional)." },
-        { nombre: "Empanadillas de atún al horno", tags: ["horno", "rapido"], desc: "Atún, huevo duro y tomate envueltos en obleas y al horno 15 min (las obleas de empanadilla son idea nueva de compra)." }
+        { nombre: "Empanadillas de atún al horno", tags: ["horno", "rapido"], desc: "Atún, huevo duro y tomate envueltos en obleas y al horno 15 min (las obleas de empanadilla son idea nueva de compra)." },
+        { nombre: "Garbanzos con espinacas", tags: ["cuchara", "rapido"], desc: "Garbanzos de bote salteados con espinacas, ajo y aceite de oliva (las espinacas son idea nueva de compra)." },
+        { nombre: "Ensalada de alubias con tomate y huevo", tags: ["rapido"], desc: "Alubias de bote con tomate, cebolleta y huevo duro, aliñadas con aceite de oliva." },
+        { nombre: "Pechuga de pavo a la plancha con verduras", tags: ["rapido"], desc: "Pechuga de pavo a la plancha con calabacín o alubias verdes (la pechuga de pavo es idea nueva de compra)." },
+        { nombre: "Conejo guisado con verduras", tags: ["cuchara"], desc: "Conejo guisado a fuego lento con cebolla, tomate y verdura (el conejo es idea nueva de compra)." }
       ];
 
       var VARIAR_PEQUE = [
@@ -1083,17 +1178,185 @@
 
       var TAG_NOMBRES = { rapido: "Rápido", horno: "Horno", cuchara: "Cuchara", peque: "Peque" };
 
+      /* ---------- Colesterol: qué platos son aptos y cuáles se adaptan ----------
+         Claves del plan: "A|B - día(0-6) - C(comida) N(cena) RC/RN(opción rápida)".
+         Un valor "apto" marca el plato tal cual; un objeto con estado "adaptado"
+         indica que falla por un solo ingrediente y muestra su versión apta
+         justo debajo, sin tocar la receta original. La pizza del sábado y la
+         sección de la peque quedan fuera a propósito. */
+      var COL_PLAN = {
+        "A-0-C": { estado: "adaptado", nota: "Cambia el chorizo por verdura extra (o quítalo sin más): lentejas con verdura y yogur natural." },
+        "A-0-N": "apto",
+        "A-1-N": "apto",
+        "A-2-C": "apto",
+        "A-2-N": "apto",
+        "A-3-N": "apto",
+        "A-4-C": { estado: "adaptado", nota: "Quita los taquitos de bacon: alubias rojas guisadas solo con verdura, igual de sabrosas." },
+        "A-5-C": "apto",
+        "A-6-C": "apto",
+        "A-6-N": { estado: "adaptado", nota: "Cambia la nata de la crema por yogur natural (o por leche semidesnatada): crema de setas ligera + tortilla de patata." },
+        "A-0-RN": "apto",
+        "A-1-RC": "apto",
+        "A-1-RN": { estado: "adaptado", nota: "Cambia el jamón por pechuga de pavo en tiras (o hazlo solo de champiñones)." },
+        "A-2-RC": "apto",
+        "A-2-RN": "apto",
+        "A-3-RC": "apto",
+        "A-3-RN": { estado: "adaptado", nota: "Cambia el lomo embuchado por lomo magro a la plancha." },
+        "A-4-RC": { estado: "adaptado", nota: "Quita el chorizo: lentejas rápidas de bote solo con verdura." },
+        "A-6-RC": "apto",
+        "A-6-RN": { estado: "adaptado", nota: "Cambia el embutido por queso fresco bajo en grasa." },
+        "B-0-C": "apto",
+        "B-0-N": "apto",
+        "B-1-C": "apto",
+        "B-1-N": { estado: "adaptado", nota: "Cambia el queso en cuña por queso fresco bajo en grasa y haz la crema con leche semidesnatada en vez de nata; acompaña con pechuga de pavo en lugar de jamón de pavo si quieres afinar más." },
+        "B-2-C": { estado: "adaptado", nota: "Quita los taquitos de bacon: lentejas estofadas solo con verdura." },
+        "B-2-N": "apto",
+        "B-3-C": "apto",
+        "B-4-C": { estado: "adaptado", nota: "Quita el chorizo: garbanzos guisados con pimiento y verdura." },
+        "B-5-C": { estado: "adaptado", nota: "Cambia los filetes de cabezada por lomo de cerdo magro, sin grasa visible." },
+        "B-6-N": "apto",
+        "B-0-RC": "apto",
+        "B-1-RC": { estado: "adaptado", nota: "Cambia el queso por queso fresco bajo en grasa, en taquitos o rallado." },
+        "B-2-RC": "apto",
+        "B-2-RN": { estado: "adaptado", nota: "Cambia el jamón por pechuga de pavo en tiras." },
+        "B-3-RC": "apto",
+        "B-3-RN": "apto",
+        "B-4-RC": { estado: "adaptado", nota: "Quita el bacon: salteado de arroz con huevo y verdura." },
+        "B-5-RC": "apto",
+        "B-6-RC": "apto",
+        "B-6-RN": { estado: "adaptado", nota: "Cambia el queso en cuña por queso fresco bajo en grasa." }
+      };
+
+      function colInfoPlan(letra, idx, tipo) {
+        var v = COL_PLAN[letra + "-" + idx + "-" + tipo];
+        if (!v) return null;
+        return typeof v === "string" ? { estado: v } : v;
+      }
+
+      /* Banco «Para variar»: aptitud por nombre exacto del plato. */
+      var COL_BANCO = {
+        "Filetes de cabezada con pimientos": { estado: "adaptado", nota: "Cambia la cabezada por lomo magro, sin grasa visible." },
+        "Crema de calabaza o de calabacín (rotar con la de setas)": "apto",
+        "Ensalada de garbanzos con atún y huevo": "apto",
+        "Revuelto de champiñones": "apto",
+        "Muslos de pollo al ajillo": "apto",
+        "Lomo con queso de cabra fundido": { estado: "adaptado", nota: "Cambia el queso de cabra por queso fresco bajo en grasa." },
+        "Arroz blanco con tomate y huevo": "apto",
+        "Champiñones rellenos de queso": { estado: "adaptado", nota: "Cambia el queso en cuña por queso fresco bajo en grasa." },
+        "Huevos al plato con tomate": { estado: "adaptado", nota: "Cambia el jamón por pechuga de pavo en tiras (o prescinde de él)." },
+        "Pollo con nata y champiñones": { estado: "adaptado", nota: "Cambia la nata por yogur natural." },
+        "Ensalada campera": "apto",
+        "Ensalada de arroz con atún": "apto",
+        "Pisto con huevo": "apto",
+        "Sopa castellana": "apto",
+        "Fabada rápida de bote": { estado: "adaptado", nota: "Quita el chorizo: alubias de bote solo con verdura." },
+        "Merluza a la plancha con ensalada": "apto",
+        "Bocadillo de tortilla": "apto",
+        "Arroz con leche": { estado: "adaptado", nota: "Cambia la leche entera por leche semidesnatada." },
+        "Pimientos rellenos de arroz y carne": { estado: "adaptado", nota: "Cambia la carne picada por pollo o pavo picado." },
+        "Tortilla de calabacín y queso": { estado: "adaptado", nota: "Cambia el queso por queso fresco bajo en grasa (o hazla sin queso)." },
+        "Ensalada de lentejas con vinagreta": "apto",
+        "Crema de calabaza y zanahoria": "apto",
+        "Fingers de pollo caseros": "apto",
+        "Merluza con tomate al horno": "apto",
+        "Brócoli salteado con ajo y jamón": { estado: "adaptado", nota: "Cambia el jamón por pechuga de pavo en tiras (o hazlo solo con ajo)." },
+        "Chips de boniato al horno con pimentón dulce": "apto",
+        "Ensalada de alubias verdes con patata y atún": "apto",
+        "Tortilla de patata con chorizo": { estado: "adaptado", nota: "Quita el chorizo: queda la tortilla de patata de siempre." },
+        "Contramuslos de pollo en salsa de tomate con aceitunas": "apto",
+        "Crema de alubias verdes con patata": { estado: "adaptado", nota: "Cambia el queso fundido por queso fresco bajo en grasa desmenuzado por encima." },
+        "Bocadillo de lomo con queso de cabra y pimientos del piquillo": { estado: "adaptado", nota: "Cambia el queso de cabra por queso fresco bajo en grasa." },
+        "Salmón al horno": { estado: "apto", nota: "Salmón: muy de vez en cuando." },
+        "Brócoli al vapor con patata": "apto",
+        "Wok de pollo con verdura y arroz": "apto",
+        "Fajitas de pollo con pimiento": "apto",
+        "Merluza en salsa verde": "apto",
+        "Pescado al horno del Mercadona": "apto",
+        "Sepia a la plancha": "apto",
+        "Pollo al curry suave con arroz": "apto",
+        "Salteado oriental de pollo con arroz": "apto",
+        "Empanadillas de atún al horno": "apto",
+        "Garbanzos con espinacas": "apto",
+        "Ensalada de alubias con tomate y huevo": "apto",
+        "Pechuga de pavo a la plancha con verduras": "apto",
+        "Conejo guisado con verduras": "apto"
+      };
+
+      function colInfoPlato(p) {
+        if (p.colEstado) return { estado: p.colEstado, nota: p.colNota || "" };
+        var v = COL_BANCO[p.nombre];
+        if (!v) return null;
+        return typeof v === "string" ? { estado: v } : v;
+      }
+
+      function badgeColHTML(info) {
+        if (!info) return "";
+        return ' <span class="badge-colesterol">' + (info.estado === "adaptado" ? "Apto colesterol · versión adaptada" : "Apto colesterol") + "</span>";
+      }
+
+      /* Cesta colesterol: chips por categoría. El texto entre paréntesis
+         marca la frecuencia (muy de vez en cuando, alguna vez…). */
+      var CESTA_COL = [
+        { titulo: "Verduras", items: ["Tomate natural", "Cebolla", "Ajos", "Calabacín", "Calabaza", "Alubias verdes", "Brócoli", "Espinacas", "Patata", "Cardo (alguna vez)"] },
+        { titulo: "Frutas", items: ["Manzana", "Plátano"] },
+        { titulo: "Legumbres", items: ["Lentejas", "Garbanzos", "Alubias"] },
+        { titulo: "Cereales", items: ["Avena", "Pan integral", "Arroz integral"] },
+        { titulo: "Pescados", items: ["Merluza", "Atún en lata", "Salmón (muy de vez en cuando)"] },
+        { titulo: "Carnes y huevos", items: ["Pollo", "Pechuga de pavo", "Conejo", "Lomo de cerdo magro, sin grasa visible", "Huevos"] },
+        { titulo: "Lácteos", items: ["Yogur natural", "Leche semidesnatada", "Queso fresco bajo en grasa"] },
+        { titulo: "Frutos secos y grasas", items: ["Nueces", "Aceite de oliva", "Aguacate (de vez en cuando)"] }
+      ];
+
+      /* Platos aptos de la pestaña «Colesterol», agrupados por categoría. */
+      var COL_GRUPOS = [
+        { titulo: "Legumbres", platos: [
+          { nombre: "Garbanzos con espinacas", desc: "Garbanzos de bote salteados con espinacas, ajo y aceite de oliva.", colEstado: "apto" },
+          { nombre: "Ensalada de garbanzos con atún y huevo", desc: "Garbanzos de bote con atún, huevo duro, tomate y cebolleta.", colEstado: "apto" },
+          { nombre: "Ensalada de lentejas con vinagreta", desc: "Lentejas de bote frías con cebolleta, tomate y aceitunas.", colEstado: "apto" },
+          { nombre: "Ensalada de alubias con tomate y huevo", desc: "Alubias de bote con tomate, cebolleta y huevo duro.", colEstado: "apto" },
+          { nombre: "Lentejas con verdura", desc: "Las lentejas de la semana, sin embutido.", colEstado: "adaptado", colNota: "Cambia el chorizo por verdura extra (o quítalo sin más)." }
+        ] },
+        { titulo: "Pescados", platos: [
+          { nombre: "Merluza al horno con patatas panadera", desc: "La cena de la semana A: merluza sobre patata y cebolla al horno.", colEstado: "apto" },
+          { nombre: "Merluza en salsa verde con patatas", desc: "Con ajo y el agua de cocer las patatas para ligar la salsa.", colEstado: "apto" },
+          { nombre: "Macarrones con atún, tomate y aceitunas", desc: "Templados, como en la semana B.", colEstado: "apto" },
+          { nombre: "Salmón al horno", desc: "Lomos de salmón al horno con patatas.", colEstado: "apto", colNota: "Salmón: muy de vez en cuando." },
+          { nombre: "Empanadillas de atún al horno", desc: "Atún, huevo duro y tomate en obleas, al horno.", colEstado: "apto" }
+        ] },
+        { titulo: "Carnes magras y huevos", platos: [
+          { nombre: "Pechuga de pavo a la plancha con verduras", desc: "Con calabacín o alubias verdes; la carne nueva para variar.", colEstado: "apto" },
+          { nombre: "Conejo guisado con verduras", desc: "A fuego lento, con cebolla, tomate y verdura.", colEstado: "apto" },
+          { nombre: "Lomo magro a la plancha con pimientos del piquillo", desc: "Lomo de cerdo sin grasa visible, con ensalada.", colEstado: "apto" },
+          { nombre: "Arroz con pollo y verduras", desc: "El de la semana A, con la verdura que haya.", colEstado: "apto" },
+          { nombre: "Tortilla de patata con cebolla", desc: "La de siempre, con ensalada de tomate.", colEstado: "apto" }
+        ] },
+        { titulo: "Verduras y cremas", platos: [
+          { nombre: "Crema de calabaza", desc: "Suave, con aceite de oliva; sin nata.", colEstado: "apto" },
+          { nombre: "Crema de calabacín", desc: "Triturada con leche semidesnatada en vez de nata.", colEstado: "apto" },
+          { nombre: "Cardo cocido con ajo y aceite de oliva", desc: "Cardo cocido y rehogado con ajos laminados.", colEstado: "apto", colNota: "Cardo: alguna vez, cuando lo tenéis." },
+          { nombre: "Brócoli al vapor con patata", desc: "Con un chorro de aceite de oliva.", colEstado: "apto" },
+          { nombre: "Ensalada con aguacate, tomate y atún", desc: "Aguacate en su punto con tomate y atún en lata.", colEstado: "apto", colNota: "Aguacate: de vez en cuando." }
+        ] },
+        { titulo: "Cereales, pasta y desayunos", platos: [
+          { nombre: "Yogur natural con avena y nueces", desc: "Desayuno ligero: la avena y las nueces son de lo que más ayuda.", colEstado: "apto" },
+          { nombre: "Avena con leche semidesnatada y fruta", desc: "Copos de avena con manzana o plátano, tibia o fría.", colEstado: "apto" },
+          { nombre: "Ensalada de arroz con atún", desc: "Arroz (integral si lo hay) frío con atún, huevo y aceitunas.", colEstado: "apto" },
+          { nombre: "Arroz con tomate y huevo", desc: "Con arroz blanco o integral: el integral es preferible, no obligatorio.", colEstado: "apto" },
+          { nombre: "Bocadillo de tortilla en pan integral", desc: "De la tortilla que sobre, en pan integral si lo hay.", colEstado: "apto" }
+        ] }
+      ];
+
       var CESTA = [
         { titulo: "Pollo", items: ["Pechugas de pollo", "Hamburguesas de pollo", "Alitas de pollo", "Muslos de pollo", "Contramuslos de pollo"] },
-        { titulo: "Otras carnes", items: ["Hamburguesas de ternera", "Filetes de cabezada de cerdo", "Lomo de cerdo", "Carne picada", "Chorizo", "Taquitos de bacon", "Costillas de cerdo — ocasionalmente"] },
+        { titulo: "Otras carnes", items: ["Hamburguesas de ternera", "Filetes de cabezada de cerdo", "Lomo de cerdo", "Lomo de cerdo magro — sin grasa visible", "Pechuga de pavo", "Conejo", "Carne picada", "Chorizo", "Taquitos de bacon", "Costillas de cerdo — ocasionalmente"] },
         { titulo: "Legumbres", items: ["Lentejas — de bote de cristal, ya cocidas", "Garbanzos — de bote de cristal, ya cocidos", "Alubias rojas — de bote de cristal, ya cocidas"] },
-        { titulo: "Verdura y cremas", items: ["Cremas de verduras: setas, calabaza, calabacín", "Brócoli", "Cebolla", "Ajos", "Tomate natural", "Alubias verdes", "Ensalada", "Aceitunas", "Cebolleta", "Patatas", "Pimientos verdes y del piquillo — rara vez", "Champiñones y zanahoria — rara vez"] },
-        { titulo: "Pasta y arroz", items: ["Macarrones", "Arroz blanco"] },
-        { titulo: "Huevos y lácteos", items: ["Huevos", "Leche entera", "Colacao", "Yogur natural", "Yogur de proteínas de sabores (Mercadona)", "Quesos en cuña variados (Mercadona)", "Queso de cabra en rollo", "Nata"] },
-        { titulo: "Pan", items: ["Pan de molde", "Pan de hamburguesa brioche", "Galletas — para los desayunos"] },
+        { titulo: "Verdura y cremas", items: ["Cremas de verduras: setas, calabaza, calabacín", "Brócoli", "Espinacas", "Cardo — alguna vez", "Cebolla", "Ajos", "Tomate natural", "Alubias verdes", "Ensalada", "Aceitunas", "Cebolleta", "Patatas", "Pimientos verdes y del piquillo — rara vez", "Champiñones y zanahoria — rara vez"] },
+        { titulo: "Pasta y arroz", items: ["Macarrones", "Arroz blanco", "Arroz integral", "Avena"] },
+        { titulo: "Huevos y lácteos", items: ["Huevos", "Leche entera", "Leche semidesnatada", "Colacao", "Yogur natural", "Queso fresco bajo en grasa", "Yogur de proteínas de sabores (Mercadona)", "Quesos en cuña variados (Mercadona)", "Queso de cabra en rollo", "Nata"] },
+        { titulo: "Pan", items: ["Pan de molde", "Pan integral", "Pan de hamburguesa brioche", "Galletas — para los desayunos"] },
         { titulo: "Embutidos", items: ["Jamón", "Fiambre de pollo 99% / 97%", "Lomo embuchado", "Jamón cocido", "Jamón de pavo"] },
-        { titulo: "Pescado", items: ["Merluza", "Atún (para la ensalada)"] },
-        { titulo: "Fruta y frutos secos", items: ["Plátanos", "Manzanas", "Otra fruta", "Nueces"] },
+        { titulo: "Pescado", items: ["Merluza", "Atún (para la ensalada)", "Atún en lata", "Salmón — muy de vez en cuando"] },
+        { titulo: "Fruta y frutos secos", items: ["Plátanos", "Manzanas", "Aguacate — de vez en cuando", "Otra fruta", "Nueces"] },
         { titulo: "Caprichos y rituales", items: ["Pizzas del Mercadona — los sábados", "Tortilla de patata — a veces", "Arroz negro de pescado del Mercadona — a veces", "Pipas normales del Mercadona — para picar"] },
         { titulo: "Para la peque", items: ["Yogures bebibles (Mercadona)", "Tarrinas de yogur de frutas (Mercadona)", "Comida familiar adaptada: verduras, carnes y purés"] }
       ];
@@ -1126,21 +1389,34 @@
         return html;
       }
 
+      function adaptadoHTML(info) {
+        if (!info || info.estado !== "adaptado") return "";
+        return '<div class="adaptado"><strong>Versión apta colesterol:</strong> ' + esc(info.nota || "") + "</div>";
+      }
+
       function renderDiasAdultos(contId, plan, prefijo) {
+        var letra = prefijo.slice(-1);
         var html = "";
         for (var i = 0; i < 7; i++) {
           var d = plan[i];
           var base = prefijo + "-dia" + i;
+          var infoC = colInfoPlan(letra, i, "C");
+          var infoN = colInfoPlan(letra, i, "N");
+          var infoRC = colInfoPlan(letra, i, "RC");
+          var infoRN = colInfoPlan(letra, i, "RN");
           html += '<article class="day' + (i === hoyIdx ? " is-today" : "") + '">';
           html += '<div class="day-head"><h3>' + DIAS[i] + '</h3><span class="today-badge">Hoy</span></div>';
           if (d.aviso) {
             html += '<p class="aviso"><span class="aviso-tag">Aviso</span><span>' + esc(d.aviso) + "</span></p>";
           }
-          html += '<div class="meal" id="' + base + '-comida"><span class="tag">Comida</span><div class="meal-body"><p>' + esc(d.comida) + "</p>" + recetaHTML(d.recetaC) + "</div></div>";
-          html += '<div class="meal" id="' + base + '-cena"><span class="tag dinner">Cena</span><div class="meal-body"><p>' + esc(d.cena) + "</p>" + recetaHTML(d.recetaN) + "</div></div>";
+          html += '<div class="meal" id="' + base + '-comida"><span class="tag">Comida</span><div class="meal-body"><p>' + esc(d.comida) + badgeColHTML(infoC) + "</p>" + recetaHTML(d.recetaC) + adaptadoHTML(infoC) + "</div></div>";
+          html += '<div class="meal" id="' + base + '-cena"><span class="tag dinner">Cena</span><div class="meal-body"><p>' + esc(d.cena) + badgeColHTML(infoN) + "</p>" + recetaHTML(d.recetaN) + adaptadoHTML(infoN) + "</div></div>";
           html += '<details class="quick"><summary>Opción rápida</summary><div class="quick-lines">' +
-            '<p id="' + base + '-rapidaC"><strong>Comida:</strong> ' + esc(d.rapidaC) + "</p>" +
-            '<p id="' + base + '-rapidaN"><strong>Cena:</strong> ' + esc(d.rapidaN) + "</p></div></details>";
+            '<p id="' + base + '-rapidaC"><strong>Comida:</strong> ' + esc(d.rapidaC) + badgeColHTML(infoRC) + "</p>" +
+            (infoRC && infoRC.estado === "adaptado" ? '<p class="adapt-line">Versión apta: ' + esc(infoRC.nota) + "</p>" : "") +
+            '<p id="' + base + '-rapidaN"><strong>Cena:</strong> ' + esc(d.rapidaN) + badgeColHTML(infoRN) + "</p>" +
+            (infoRN && infoRN.estado === "adaptado" ? '<p class="adapt-line">Versión apta: ' + esc(infoRN.nota) + "</p>" : "") +
+            "</div></details>";
           html += "</article>";
         }
         document.getElementById(contId).innerHTML = html;
@@ -1184,11 +1460,15 @@
       }
 
       function platoHTML(p, clase, idAncla) {
-        var html = '<div class="dish ' + clase + '"' + (idAncla ? ' id="' + idAncla + '"' : "") + ' data-tags="' + p.tags.join(" ") + '"><span class="dish-name">' + esc(p.nombre) + "</span>";
-        p.tags.forEach(function (t) {
+        var info = colInfoPlato(p);
+        var html = '<div class="dish ' + clase + '"' + (idAncla ? ' id="' + idAncla + '"' : "") + ' data-tags="' + (p.tags || []).join(" ") + '"' + (info ? ' data-col="' + info.estado + '"' : "") + '><span class="dish-name">' + esc(p.nombre) + "</span>";
+        (p.tags || []).forEach(function (t) {
           html += '<span class="pill">' + TAG_NOMBRES[t] + "</span>";
         });
+        html += badgeColHTML(info);
         if (p.desc) html += '<span class="dish-desc">' + esc(p.desc) + "</span>";
+        if (info && info.estado === "adaptado" && info.nota) html += '<span class="dish-desc"><strong>Versión apta:</strong> ' + esc(info.nota) + "</span>";
+        if (info && info.estado === "apto" && info.nota) html += '<span class="dish-desc">' + esc(info.nota) + "</span>";
         html += "</div>";
         return html;
       }
@@ -1240,6 +1520,55 @@
         sugerenciasActuales = elegirTres(Math.random, sugerenciasActuales);
         mostrarSugerencias(sugerenciasActuales);
       });
+
+      /* ---------- Pestaña «Colesterol»: cesta, grupos y sugerencias ---------- */
+      (function renderColesterol() {
+        var cestaHTML = "";
+        CESTA_COL.forEach(function (cat) {
+          cestaHTML += '<div class="col-cat"><h4>' + esc(cat.titulo) + '</h4><div class="col-chips">';
+          cat.items.forEach(function (it) {
+            var m = it.match(/^(.*?)\s*\((.*?)\)\s*$/);
+            if (m) cestaHTML += '<span class="col-chip">' + esc(m[1]) + ' <em>(' + esc(m[2]) + ")</em></span>";
+            else cestaHTML += '<span class="col-chip">' + esc(it) + "</span>";
+          });
+          cestaHTML += "</div></div>";
+        });
+        document.getElementById("cestaCol").innerHTML = cestaHTML;
+
+        var gruposHTML = "";
+        COL_GRUPOS.forEach(function (g) {
+          gruposHTML += '<h3 class="subhead">' + esc(g.titulo) + '</h3><div class="dish-grid">';
+          g.platos.forEach(function (p) {
+            gruposHTML += platoHTML({ nombre: p.nombre, desc: p.desc, tags: [], colEstado: p.colEstado, colNota: p.colNota }, "");
+          });
+          gruposHTML += "</div>";
+        });
+        document.getElementById("colGrupos").innerHTML = gruposHTML;
+
+        var poolCol = BANCO.filter(function (item) {
+          return item.clase !== "kid" && colInfoPlato(item.plato);
+        });
+        function elegirTresCol(rng, excluir) {
+          var pool = poolCol.filter(function (item) { return excluir.indexOf(item) === -1; });
+          var copia = pool.slice();
+          for (var i = copia.length - 1; i > 0; i--) {
+            var j = Math.floor(rng() * (i + 1));
+            var tmp = copia[i]; copia[i] = copia[j]; copia[j] = tmp;
+          }
+          return copia.slice(0, 3);
+        }
+        function mostrarSugerenciasCol(lista) {
+          var html = "";
+          lista.forEach(function (item) { html += platoHTML(item.plato, item.clase); });
+          document.getElementById("sugerenciasCol").innerHTML = html;
+        }
+        var sugerenciasColActuales = elegirTresCol(mulberry32(semillaHoy + 4242), []);
+        mostrarSugerenciasCol(sugerenciasColActuales);
+        document.getElementById("btnMasIdeasCol").addEventListener("click", function () {
+          sugerenciasColActuales = elegirTresCol(Math.random, sugerenciasColActuales);
+          mostrarSugerenciasCol(sugerenciasColActuales);
+        });
+      })();
 
       /* ---------- Sugerencia de desayuno del día (rota sola por fecha) ---------- */
       var DESAYUNOS_ELLA = [
@@ -1416,6 +1745,24 @@
       VARIAR_NUEVAS.forEach(function (p, i) { addIndice(p.nombre, p.desc || "", "Para variar · idea nueva", "variar", "variar-nueva-" + i); });
       VARIAR_PEQUE.forEach(function (p, i) { addIndice(p.nombre, p.desc || "", "Para variar · peque", "variar", "variar-peque-" + i); });
 
+      // Aptitud colesterol de cada entrada del índice (la peque queda fuera)
+      INDICE.forEach(function (e) {
+        e.col = null;
+        if (e.ancla.indexOf("semana") === 0) {
+          var letra = e.ancla.charAt(6);
+          var idx = parseInt(e.ancla.split("-dia")[1], 10);
+          var tipo = e.ancla.indexOf("-rapidaC") !== -1 ? "RC"
+            : e.ancla.indexOf("-rapidaN") !== -1 ? "RN"
+            : e.ancla.indexOf("-comida") !== -1 ? "C" : "N";
+          var info = colInfoPlan(letra, idx, tipo);
+          if (info) e.col = info.estado;
+        } else if (e.ancla.indexOf("variar-") === 0) {
+          var infoB = COL_BANCO[e.nombre];
+          if (infoB) e.col = typeof infoB === "string" ? infoB : infoB.estado;
+        }
+      });
+      var soloColesterol = false;
+
       var inputBuscador = document.getElementById("buscadorInput");
       var estadoBuscador = document.getElementById("buscadorEstado");
       var contResultados = document.getElementById("resultados");
@@ -1426,12 +1773,15 @@
         if (q.length < 2) {
           contResultados.innerHTML = "";
           estadoBuscador.textContent = q.length === 0
-            ? "Busca entre " + INDICE.length + " platos: los del plan de las dos semanas, los de la peque y los del banco para variar."
+            ? (soloColesterol
+              ? "Filtro de colesterol activo: escribe un ingrediente y saldrán solo los platos aptos (o con versión adaptada)."
+              : "Busca entre " + INDICE.length + " platos: los del plan de las dos semanas, los de la peque y los del banco para variar.")
             : "Sigue escribiendo…";
           return;
         }
         var palabras = q.split(/\s+/).map(raiz);
         var encontrados = INDICE.filter(function (e) {
+          if (soloColesterol && !e.col) return false;
           return palabras.every(function (p) { return e.texto.indexOf(p) !== -1; });
         });
         if (!encontrados.length) {
@@ -1442,11 +1792,16 @@
         estadoBuscador.textContent = encontrados.length + (encontrados.length === 1 ? " plato lleva " : " platos llevan ") + "«" + escrito + "»:";
         var html = "";
         encontrados.forEach(function (e) {
-          html += '<div class="dish"><span class="dish-name">' + esc(e.nombre) + '</span><span class="pill">' + esc(e.origen) + '</span><button type="button" class="goto" data-goto="' + e.destino + '" data-ancla="' + e.ancla + '">Ver</button></div>';
+          html += '<div class="dish"><span class="dish-name">' + esc(e.nombre) + '</span><span class="pill">' + esc(e.origen) + "</span>" + (e.col ? badgeColHTML({ estado: e.col }) : "") + '<button type="button" class="goto" data-goto="' + e.destino + '" data-ancla="' + e.ancla + '">Ver</button></div>';
         });
         contResultados.innerHTML = html;
       }
       inputBuscador.addEventListener("input", buscar);
+      document.getElementById("filtroColBuscador").addEventListener("click", function () {
+        soloColesterol = !soloColesterol;
+        this.setAttribute("aria-pressed", soloColesterol ? "true" : "false");
+        buscar();
+      });
       buscar();
 
       document.getElementById("buscadorChips").addEventListener("click", function (ev) {
@@ -1501,7 +1856,11 @@
           filterBtns.forEach(function (b) { b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
           document.querySelectorAll("#varyUsual .dish, #varyNew .dish, #varyKid .dish").forEach(function (dish) {
             var tags = (dish.getAttribute("data-tags") || "").split(" ");
-            dish.classList.toggle("hidden", f !== "todos" && tags.indexOf(f) === -1);
+            var mostrar;
+            if (f === "todos") mostrar = true;
+            else if (f === "colesterol") mostrar = !!dish.getAttribute("data-col");
+            else mostrar = tags.indexOf(f) !== -1;
+            dish.classList.toggle("hidden", !mostrar);
           });
         });
       });
