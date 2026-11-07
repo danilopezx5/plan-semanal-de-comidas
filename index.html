@@ -804,7 +804,7 @@
       <section class="panel" id="panel-compra" role="tabpanel" aria-labelledby="tab-compra">
         <h2>Lista de la compra</h2>
         <p class="lede">Lo que hace falta cada semana para cumplir el plan, agrupado por pasillos, más la despensa base que conviene tener siempre en casa. Marca la casilla de cada cosa según la tengas en casa o la vayas metiendo en el carro: quedará tachada y de un vistazo verás lo que te falta.</p>
-        <p class="subnote">Precios orientativos de Mercadona; revisados el 02/11/2026 (los productos no verificados hoy mantienen el valor consultado anteriormente). Los frescos de peso variable se cobran al peso en tienda.</p>
+        <p class="subnote">Precios orientativos de Mercadona; revisados el 02/11/2026. Queso en cuña, guisantes y yogur de proteínas actualizados con ticket del 07/11/2026 (total ticket 24,04 €). Los frescos de peso variable se cobran al peso en tienda.</p>
         <div class="marks-bar">
           <span class="marks-count" id="cuentaCompra"></span>
           <button type="button" class="reset-marks" id="resetCompra">Quitar todas las marcas</button>
@@ -1087,7 +1087,7 @@
         { titulo: "Verdura y fruta", items: ["Cebolla · 3,00 €", "Ajos", "Tomate natural · 1,00 €", "Calabaza · 3,00-3,50 €/kg", "Calabacín", "Setas", "Alubias verdes", "Espinacas", "Brócoli", "Cardo — alguna vez", "Patatas · 5,60 €", "Ensalada", "Cebolleta · 1,70 €", "Aceitunas", "Pimientos del piquillo · 1,45 €", "Plátanos", "Manzanas · 1,80-2,10 €/kg", "Aguacate — de vez en cuando", "Otra fruta"] },
         { titulo: "Carne", items: ["Pechugas de pollo · 6,65-6,95 €/kg", "Contramuslos de pollo", "Pechuga de pavo", "Conejo — ocasionalmente", "Carne picada · 2,75-5,50 €", "Chorizo · 2,49-4,20 €", "Taquitos de bacon", "Hamburguesas de pollo · 2,90-3,80 €", "Hamburguesas de ternera · 2,60-5,40 €", "Lomo de cerdo · 6,24 € — magro, sin grasa visible"] },
         { titulo: "Pescado", items: ["Merluza", "Atún en lata · 4,90 €", "Salmón — muy de vez en cuando", "Arroz negro de pescado (Mercadona)"] },
-        { titulo: "Lácteos", items: ["Leche entera · 0,96 €", "Leche semidesnatada · 0,83 €", "Yogur natural", "Queso fresco bajo en grasa", "Queso en cuña · 3,73 €", "Queso de cabra en rollo", "Queso mozzarella rallado"] },
+        { titulo: "Lácteos", items: ["Leche entera · 0,96 €", "Leche semidesnatada · 0,83 €", "Yogur natural", "Queso fresco bajo en grasa", "Queso en cuña · 4,57-4,97 €", "Queso de cabra en rollo", "Queso mozzarella rallado"] },
         { titulo: "Despensa", items: ["Lentejas · 0,75 € — de bote de cristal", "Garbanzos · 0,75 € — de bote de cristal", "Alubias rojas — de bote de cristal", "Macarrones · 1,10-1,25 €", "Arroz blanco · 1,99-2,15 €", "Arroz integral", "Avena", "Huevos · 2,85-3,35 €", "Pan de molde", "Pan integral", "Pan de hamburguesa brioche · 1,10 €", "Atún · 4,90 €", "Pizza del Mercadona (sábado) · 2,50-3,40 €"] }
       ];
 
@@ -1095,12 +1095,12 @@
         { titulo: "Verdura y fruta", items: ["Cebolla · 3,00 €", "Ajos", "Tomate natural · 1,00 €", "Calabaza · 3,00-3,50 €/kg", "Calabacín", "Setas", "Champiñones", "Espinacas", "Brócoli", "Cardo — alguna vez", "Patatas · 5,60 €", "Ensalada", "Cebolleta · 1,70 €", "Aceitunas", "Pimientos del piquillo · 1,45 €", "Plátanos", "Manzanas · 1,80-2,10 €/kg", "Aguacate — de vez en cuando", "Otra fruta"] },
         { titulo: "Carne", items: ["Alitas de pollo · 3,26-3,53 €", "Filetes de cabezada", "Costillas de cerdo", "Pechugas de pollo · 6,65-6,95 €/kg", "Pechuga de pavo", "Conejo — ocasionalmente", "Chorizo · 2,49-4,20 €"] },
         { titulo: "Pescado", items: ["Merluza", "Atún · 4,90 €", "Salmón — muy de vez en cuando"] },
-        { titulo: "Huevos y lácteos", items: ["Huevos · 2,85-3,35 €", "Leche entera · 0,96 €", "Leche semidesnatada · 0,83 €", "Yogur natural", "Queso fresco bajo en grasa", "Yogures de la peque", "Queso en cuña · 3,73 €", "Queso de cabra en rollo", "Mozzarella rallada"] },
+        { titulo: "Huevos y lácteos", items: ["Huevos · 2,85-3,35 €", "Leche entera · 0,96 €", "Leche semidesnatada · 0,83 €", "Yogur natural", "Queso fresco bajo en grasa", "Yogures de la peque", "Queso en cuña · 4,57-4,97 €", "Queso de cabra en rollo", "Mozzarella rallada"] },
         { titulo: "Mercadona", items: ["Pizza (sábado) · 2,50-3,40 €", "Galletas · 0,90-1,45 €", "Pipas · 1,35 €", "Pan de molde", "Pan integral", "Avena", "Arroz integral", "Pan brioche · 1,10 €"] }
       ];
 
       var DESPENSA_BASE = [
-        { titulo: "Despensa base", items: ["Lentejas · 0,75 € — de bote de cristal", "Garbanzos · 0,75 € — de bote de cristal", "Alubias rojas — de bote de cristal", "Macarrones · 1,10-1,25 €", "Arroz blanco · 1,99-2,15 €", "Arroz integral", "Avena", "Atún en lata · 4,90 €", "Tomate natural · 1,00 €", "Huevos · 2,85-3,35 €", "Leche · 0,96 €", "Aceite de oliva virgen extra · 4,35 €", "Berenjena · 1,50-2,50 €/kg", "Boniato · 1,89-2,55 €/kg", "Pimiento verde · 2,30 €/kg", "Colacao", "Galletas · 0,90-1,45 €", "Pipas · 1,35 €", "Nueces · 2,40 €", "Pan de molde", "Pan integral"] }
+        { titulo: "Despensa base", items: ["Lentejas · 0,75 € — de bote de cristal", "Garbanzos · 0,75 € — de bote de cristal", "Alubias rojas — de bote de cristal", "Guisantes · 1,55 €", "Macarrones · 1,10-1,25 €", "Arroz blanco · 1,99-2,15 €", "Arroz integral", "Avena", "Atún en lata · 4,90 €", "Tomate natural · 1,00 €", "Huevos · 2,85-3,35 €", "Leche · 0,96 €", "Yogur de proteínas · 1,50 €", "Aceite de oliva virgen extra · 4,35 €", "Berenjena · 1,50-2,50 €/kg", "Boniato · 1,89-2,55 €/kg", "Pimiento verde · 2,30 €/kg", "Colacao", "Galletas · 0,90-1,45 €", "Pipas · 1,35 €", "Nueces · 2,40 €", "Pan de molde", "Pan integral"] }
       ];
 
       var VARIAR_HABITUAL = [
