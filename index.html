@@ -804,7 +804,7 @@
       <section class="panel" id="panel-compra" role="tabpanel" aria-labelledby="tab-compra">
         <h2>Lista de la compra</h2>
         <p class="lede">Lo que hace falta cada semana para cumplir el plan, agrupado por pasillos, más la despensa base que conviene tener siempre en casa. Marca la casilla de cada cosa según la tengas en casa o la vayas metiendo en el carro: quedará tachada y de un vistazo verás lo que te falta.</p>
-        <p class="subnote">Precios orientativos de Mercadona; revisados el 09/11/2026. Queso en cuña, guisantes y yogur de proteínas actualizados con ticket del 07/11/2026 (total ticket 24,04 €). Los frescos de peso variable se cobran al peso en tienda.</p>
+        <p class="subnote">Precios orientativos de Mercadona; revisados el 09/11/2026. Queso en cuña, guisantes y yogur de proteínas actualizados con ticket del 07/11/2026 (total ticket 24,04 €). Huevos re-verificados el 11/11/2026 (2,85-3,35 €). Los frescos de peso variable se cobran al peso en tienda.</p>
         <div class="marks-bar">
           <span class="marks-count" id="cuentaCompra"></span>
           <button type="button" class="reset-marks" id="resetCompra">Quitar todas las marcas</button>
@@ -1156,7 +1156,17 @@
         { nombre: "Pechuga rellena de jamón y queso a la plancha", tags: ["rapido"], desc: "Pechuga abierta y rellena de jamón cocido y queso, a la plancha hasta que el queso funde." },
         { nombre: "Lomo a la plancha con champiñones y nata", tags: ["rapido"], desc: "Filetes de lomo con champiñones salteados y un chorro de nata, con arroz blanco." },
         { nombre: "Crema de guisantes con patata y jamón", tags: ["cuchara", "peque"], desc: "Guisantes con patata triturados, con taquitos de jamón por encima; para la peque, sin jamón y bien triturada." },
-        { nombre: "Arroz con garbanzos y chorizo", tags: ["cuchara"], desc: "Arroz caldoso con garbanzos de bote y chorizo en rodajas, todo en la misma cazuela." }
+        { nombre: "Arroz con garbanzos y chorizo", tags: ["cuchara"], desc: "Arroz caldoso con garbanzos de bote y chorizo en rodajas, todo en la misma cazuela." },
+        { nombre: "Garbanzos salteados con alubias verdes y tomate", tags: ["rapido"], desc: "Garbanzos de bote, escurridos, salteados con alubias verdes ya cocidas, tomate natural y ajo; en 10 minutos." },
+        { nombre: "Macarrones con brócoli y atún", tags: ["rapido"], desc: "Macarrones con ramilletes de brócoli cocidos y atún escurrido, aliñados con aceite de oliva." },
+        { nombre: "Merluza guisada con guisantes y patata", tags: ["cuchara"], desc: "Lomos de merluza en un guiso sencillo de guisantes, patata en dados y cebolla, todo en la misma cazuela." },
+        { nombre: "Tortilla de alubias verdes con jamón", tags: ["rapido"], desc: "Alubias verdes cocidas y troceadas cuajadas en tortilla con taquitos de jamón." },
+        { nombre: "Arroz con alubias rojas y verdura", tags: ["cuchara"], desc: "Arroz caldoso con alubias rojas de bote, escurridas, cebolla, tomate natural y pimiento verde." },
+        { nombre: "Macarrones con chorizo y tomate", tags: ["rapido"], desc: "Macarrones con tomate natural y taquitos de chorizo dorados; listos en 15 minutos." },
+        { nombre: "Crema de zanahoria y patata", tags: ["cuchara", "peque"], desc: "Zanahoria y patata cocidas y trituradas con un poco de leche; dulce y suave, perfecta para la peque." },
+        { nombre: "Tortilla de patata y calabacín", tags: ["rapido"], desc: "Tortilla jugosa de patata y calabacín pochados con cebolla." },
+        { nombre: "Ensalada de lentejas con atún y huevo duro", tags: ["rapido"], desc: "Lentejas de bote frías con atún, huevo duro, tomate y cebolleta." },
+        { nombre: "Merluza al horno con cebolla y pimiento verde", tags: ["horno"], desc: "Lomos de merluza al horno sobre cebolla y pimiento verde pochados." }
       ];
 
       var VARIAR_NUEVAS = [
@@ -1299,7 +1309,17 @@
         "Crema de brócoli con patata": "apto",
         "Merluza rebozada casera con ensalada": "apto",
         "Canelones de carne picada": { estado: "adaptado", nota: "Cambia la nata por yogur natural y el queso por queso fresco bajo en grasa." },
-        "Ensalada de patata con huevo y aceitunas": { estado: "adaptado", nota: "Cambia la mayonesa por yogur natural con un chorro de aceite de oliva." }
+        "Ensalada de patata con huevo y aceitunas": { estado: "adaptado", nota: "Cambia la mayonesa por yogur natural con un chorro de aceite de oliva." },
+        "Garbanzos salteados con alubias verdes y tomate": "apto",
+        "Macarrones con brócoli y atún": "apto",
+        "Merluza guisada con guisantes y patata": "apto",
+        "Tortilla de alubias verdes con jamón": { estado: "adaptado", nota: "Cambia el jamón por pechuga de pavo en tiras (o hazla solo con alubias verdes)." },
+        "Arroz con alubias rojas y verdura": "apto",
+        "Macarrones con chorizo y tomate": { estado: "adaptado", nota: "Quita el chorizo: quedan unos macarrones con tomate de siempre." },
+        "Crema de zanahoria y patata": "apto",
+        "Tortilla de patata y calabacín": "apto",
+        "Ensalada de lentejas con atún y huevo duro": "apto",
+        "Merluza al horno con cebolla y pimiento verde": "apto"
       };
 
       function colInfoPlato(p) {
