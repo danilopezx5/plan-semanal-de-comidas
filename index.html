@@ -804,7 +804,7 @@
       <section class="panel" id="panel-compra" role="tabpanel" aria-labelledby="tab-compra">
         <h2>Lista de la compra</h2>
         <p class="lede">Lo que hace falta cada semana para cumplir el plan, agrupado por pasillos, más la despensa base que conviene tener siempre en casa. Marca la casilla de cada cosa según la tengas en casa o la vayas metiendo en el carro: quedará tachada y de un vistazo verás lo que te falta.</p>
-        <p class="subnote">Precios orientativos de Mercadona; revisados el 23/11/2026. Patatas (5,30 €) y yogur natural (1,05 €) actualizados el 23/11/2026. Huevos, leche semidesnatada, aceite de oliva y pan integral re-verificados sin cambio el 23/11/2026. Queso en cuña, guisantes y yogur de proteínas actualizados con ticket del 07/11/2026 (total ticket 24,04 €). Lentejas, garbanzos, atún, plátanos y yogures de la peque actualizados con ticket del 16/11/2026 (total ticket 51,89 €). Pan de molde (0,80 €), pan integral (0,90 €), queso fresco (1,60 €) y calabacín (1,40 €/kg) verificados el 16/11/2026. Los frescos de peso variable se cobran al peso en tienda. Merluza, contramuslos, cabezada, costillas, pechuga de pavo y mozzarella rallada verificados el 18/11/2026.</p>
+        <p class="subnote">Precios orientativos de Mercadona; revisados el 25/11/2026. Patatas (5,30 €) y yogur natural (1,05 €) actualizados el 23/11/2026. Huevos, leche semidesnatada, aceite de oliva y pan integral re-verificados sin cambio el 23/11/2026. Huevos, leche entera, leche semidesnatada y aceite de oliva virgen extra re-verificados sin cambio el 25/11/2026. Queso en cuña, guisantes y yogur de proteínas actualizados con ticket del 07/11/2026 (total ticket 24,04 €). Lentejas, garbanzos, atún, plátanos y yogures de la peque actualizados con ticket del 16/11/2026 (total ticket 51,89 €). Pan de molde (0,80 €), pan integral (0,90 €), queso fresco (1,60 €) y calabacín (1,40 €/kg) verificados el 16/11/2026. Los frescos de peso variable se cobran al peso en tienda. Merluza, contramuslos, cabezada, costillas, pechuga de pavo y mozzarella rallada verificados el 18/11/2026.</p>
         <div class="marks-bar">
           <span class="marks-count" id="cuentaCompra"></span>
           <button type="button" class="reset-marks" id="resetCompra">Quitar todas las marcas</button>
@@ -1189,7 +1189,10 @@
         { nombre: "Arroz con pollo y champiñones", tags: ["cuchara"], desc: "Arroz caldoso con tiras de pechuga y champiñones salteados con ajo, todo en la misma cazuela." },
         { nombre: "Tortilla de patata con pimiento verde", tags: ["rapido"], desc: "La tortilla de siempre con pimiento verde pochado con la patata y la cebolla." },
         { nombre: "Garbanzos con chorizo y patata", tags: ["cuchara"], desc: "Garbanzos de bote de cristal, escurridos, guisados con chorizo en rodajas y patata en dados." },
-        { nombre: "Macarrones con atún y huevo", tags: ["rapido"], desc: "Macarrones con atún escurrido y huevo duro picado, aliñados con aceite de oliva." }
+        { nombre: "Macarrones con atún y huevo", tags: ["rapido"], desc: "Macarrones con atún escurrido y huevo duro picado, aliñados con aceite de oliva." },
+        { nombre: "Contramuslos de pollo al horno con ajo y patatas", tags: ["horno"], desc: "Contramuslos dorados al horno con ajos y patatas en gajos." },
+        { nombre: "Tortilla de patata con queso de cabra", tags: ["rapido"], desc: "Tortilla jugosa de patata con queso de cabra fundido por dentro." },
+        { nombre: "Garbanzos con tomate y huevo escalfado", tags: ["rapido", "cuchara"], desc: "Garbanzos de bote salteados con tomate natural y huevo escalfado por encima." }
       ];
 
       var VARIAR_NUEVAS = [
@@ -1216,7 +1219,8 @@
         { nombre: "Coliflor gratinada con queso al horno", tags: ["horno"], desc: "Ramilletes de coliflor al horno con queso fundido gratinado por encima (idea nueva de compra: la coliflor)." },
         { nombre: "Potaje de garbanzos con bacalao", tags: ["cuchara"], desc: "Idea nueva de compra: bacalao. Garbanzos de bote con bacalao desalado y sofrito de cebolla y tomate." },
         { nombre: "Alubias blancas guisadas con verdura y jamón", tags: ["cuchara"], desc: "Alubias blancas de bote guisadas con sofrito de cebolla y tomate y taquitos de jamón (idea nueva de compra: alubias blancas de bote)." },
-        { nombre: "Quinoa con pollo y verduras", tags: ["rapido"], desc: "Quinoa cocida con tiras de pechuga a la plancha y verdura salteada (la quinoa es idea nueva de compra)." }
+        { nombre: "Quinoa con pollo y verduras", tags: ["rapido"], desc: "Quinoa cocida con tiras de pechuga a la plancha y verdura salteada (la quinoa es idea nueva de compra)." },
+        { nombre: "Muslos de pollo al horno con miel y patatas", tags: ["horno"], desc: "Muslos al horno con un toque de miel y patatas (idea nueva de compra: miel)." }
       ];
 
       var VARIAR_PEQUE = [
@@ -1227,7 +1231,8 @@
         { nombre: "Albóndigas en salsa de tomate", tags: ["horno", "peque"], desc: "Con carne picada, huevo y pan de molde, en salsa de tomate natural." },
         { nombre: "Crema de champiñones", tags: ["cuchara", "peque"], desc: "Crema suave de champiñón con un chorro de nata." },
         { nombre: "Pizza en pan de molde", tags: ["rapido", "peque"], desc: "Base de pan de molde con tomate, queso y lo que haya." },
-        { nombre: "Puré de lentejas con zanahoria", tags: ["cuchara", "peque"], desc: "Lentejas de bote trituradas con zanahoria cocida." }
+        { nombre: "Puré de lentejas con zanahoria", tags: ["cuchara", "peque"], desc: "Lentejas de bote trituradas con zanahoria cocida." },
+        { nombre: "Crema de calabacín y patata con queso fresco", tags: ["cuchara", "peque"], desc: "Crema suave de calabacín y patata con queso fresco, sin sal, apta para la peque." }
       ];
 
       var TAG_NOMBRES = { rapido: "Rápido", horno: "Horno", cuchara: "Cuchara", peque: "Peque" };
